@@ -1,14 +1,12 @@
-import { CiLogout, CiShoppingCart } from 'react-icons/ci'
-import { IoPersonOutline } from 'react-icons/io5'
+import React from "react";
+import { CiLogout, CiShoppingCart } from "react-icons/ci";
+import { IoPersonOutline } from "react-icons/io5";
 
-
-interface NavMenuForMediumAndSmallerDeviceProps {
-    menuBurger: boolean
-    setMenuBurger: React.Dispatch<React.SetStateAction<boolean>>
+interface NewNavbarProps {
+    menuBurger: boolean;
+    setMenuBurger: React.Dispatch<React.SetStateAction<boolean>>;
 }
-const NavMenuForMediumAndSmallerDevice: React.FC<NavMenuForMediumAndSmallerDeviceProps> = ({ menuBurger, setMenuBurger }) => {
-
-
+const NewNavbar: React.FC<NewNavbarProps> = ({ menuBurger, setMenuBurger }) => {
     return (
         <div className="relative">
             <nav className={` flex md:hidden justify-between list-none mt-6 ${menuBurger && ''}`}>
@@ -94,7 +92,7 @@ const NavMenuForMediumAndSmallerDevice: React.FC<NavMenuForMediumAndSmallerDevic
             </nav>
 
         </div>
-    )
-}
+    );
+};
 
-export default NavMenuForMediumAndSmallerDevice
+export default NewNavbar;
