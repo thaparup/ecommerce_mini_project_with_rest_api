@@ -20,7 +20,7 @@ const Navbar: React.FC<NavbarProps> = () => {
                 <ul className='flex gap-4 self-end font-normal relative text-md '>
                     <li className={`after:content-[''] after:h-1  after:block after:hover:w-0 after:transition-all after:duration-300 after:ease-in-out  ${activeLink === 'Shop' && 'after:w-full after:bg-primaryColor'}`}><Link
                         to=''>Shop</Link></li>
-                    <li className={`after:content-[''] after:bg-primaryColor after:h-1 after:w-0 after:block hover:after:w-full after:transition-all after:duration-300 after:ease-in-out ${activeLink === 'Categories' && 'after:w-full after:bg-primaryColor'}`} onMouseEnter={() => setActiveLink('Categories')} onMouseLeave={() => setActiveLink('Shop')}><Link to='/register' >Categories</Link></li>
+                    <li className={`after:content-[''] after:bg-primaryColor after:h-1 after:w-0 after:block hover:after:w-full after:transition-all after:duration-300 after:ease-in-out ${activeLink === 'Categories' && 'after:w-full after:bg-primaryColor'}`} onMouseEnter={() => setActiveLink('Categories')} onMouseLeave={() => setActiveLink('Shop')}><Link to='/categories' >Categories</Link></li>
                     <li className={`after:content-[''] after:bg-primaryColor after:h-1 after:w-0 after:block hover:after:w-full after:transition-all after:duration-300 after:ease-in-out ${activeLink === 'Register' && 'after:w-full after:bg-primaryColor'}`} onMouseEnter={() => setActiveLink('Register')} onMouseLeave={() => setActiveLink('Shop')}><Link to='/register' >Register</Link></li>
                 </ul>
                 <ul className='flex gap-7 self-end font-normal text-md '>
