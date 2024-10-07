@@ -11,7 +11,7 @@ const Category: React.FC<CategoryProps> = ({ imageUrl, categoryName, categoryUrl
     return (
         <Link to={categoryUrl}>
 
-            <div className='cursor-pointer'  >
+            <div className='curso-pointer'  >
                 <img src={imageUrl} alt="" className='bg-zinc-200 w-full h-[300px] object-scale-down rounded-md' />
                 <h3 className="text-xl font-medium pt-3">{categoryName}</h3>
 
