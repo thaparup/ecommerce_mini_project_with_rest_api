@@ -5,6 +5,7 @@ export default function useFetch<ResponseOject>(url: string) {
   const [data, setData] = useState<ResponseOject | null>(null);
   const [error, setError] = useState<Error | null>(null);
   const [loading, setLoading] = useState(false);
+  const [skip, setSkip] = useState<number>(0);
 
   useEffect(() => {
     const callApi = async () => {
@@ -28,6 +29,6 @@ export default function useFetch<ResponseOject>(url: string) {
     };
 
     callApi();
-  }, []);
-  return { data, loading, error };
+  }, [skip]);
+  return { data, loading, error, skip, setData, setSkip };
 }

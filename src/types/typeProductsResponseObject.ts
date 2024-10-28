@@ -6,8 +6,9 @@ export type Product = {
   thumbnail: string;
 };
 
-export type TypeProductsRespnseObject = {
+export type TypeProductsRespnse = {
   products: Product[];
   limit: number;
   skip: number;
+  total: number;
 };

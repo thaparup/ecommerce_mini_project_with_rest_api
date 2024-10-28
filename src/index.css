@@ -64,6 +64,87 @@ body {
   animation: divLoadMoreAnimation 1s infinite;
 }
 
+.productCard {
+  width: 300px;
+  height: 300px;
+  background: white;
+}
+
+.productCard::after {
+}
+
+.item1 {
+  position: relative;
+}
+.item1::after {
+  content: "";
+  position: absolute;
+  border-left: 40px solid black;
+  border-right: 20px solid black;
+  border-top: 25px solid black;
+  border-bottom: 20px solid black;
+
+  z-index: 20;
+}
+
+@keyframes cartAnimate {
+  0% {
+    transform: translate(0px, 8px);
+  }
+
+  40%,
+  60% {
+    transform: translate(80px, 8px);
+  }
+
+  100% {
+    transform: translate(153px, 8px);
+  }
+}
+.cartAnimation {
+  animation: cartAnimate 1.5s;
+  animation-delay: 0s;
+}
+
+@keyframes boxAnimate {
+  0%,
+  40% {
+    transform: translate(90px, -54px);
+  }
+
+  59% {
+    transform: translate(90px, -18px);
+  }
+
+  100% {
+    transform: translate(162.6px, -18px);
+  }
+}
+.boxAnimation {
+  animation: boxAnimate 1.5s;
+}
+
+.cardBoxShadow {
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px,
+    rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+  /* padding: 16px; */
+}
+
+@keyframes skeletonAnimation {
+  0% {
+    background-color: hsl(200, 20%, 70%);
+  }
+
+  100% {
+    background-color: hsl(200, 20%, 95%);
+  }
+}
+
+.skeleton {
+  opacity: 0.3;
+  animation: skeletonAnimation 1s ease-in-out infinite alternate;
+}
+
 /* nav ul li ::after {
   content: "";
   background: red;

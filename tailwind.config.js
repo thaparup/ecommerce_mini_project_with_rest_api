@@ -6,6 +6,7 @@ export default {
     extend: {
       colors: {
         primaryColor: "#06b6d4",
+        bgColor: "#d6d3d1",
         inputBoxShadowColor: "rgba(15, 2, 2, 0.2)",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
