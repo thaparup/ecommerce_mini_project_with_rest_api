@@ -48,12 +48,16 @@ const Homepage = () => {
         };
         setTimeout(() => {
             fetchProducts();
-        }, 6000);
+        }, 1000);
     }, [skipCounter]);
 
-    console.log(data);
+
+    const [totalWidth, setTotalWidth] = useState(window.innerWidth);
+
+
 
     useEffect(() => {
+
         const observerCallback = (entries: IntersectionObserverEntry[]) => {
             entries.forEach((entry) => {
                 if (entry.isIntersecting) {
@@ -75,18 +79,16 @@ const Homepage = () => {
     }, [data]);
 
     return (
-        <div className="my-8 ">
-            <h1 className="text-2xl font-medium">All Products</h1>
+        <div className="my-8 mx-12">
+            <h1 className="text-2xl font-medium max-md:text-center">All Products</h1>
 
-            <div
-                id="myDiv"
-                className=" grid grid-cols-4 gap-x-8 gap-y-12 mt-8 "
-            ></div>
 
             {isLoadingProducts ? (
+
                 <ProductSkeleton count={12} />
             ) : (
-                <div id="myDiv" className=" grid grid-cols-4 gap-x-8 gap-y-12 mt-8">
+
+                <div className=" grid grid-cols-4 max-xl:grid-cols-3 max-lg:grid-cols-2 max-md:grid-cols-1 gap-x-5 max-lg:gap-12 gap-y-12 mt-4 max-md:flex  max-md:flex-col max-md:max-w-[24rem] max-md:mx-auto max-md:gap-12 ">
                     {data?.products.map(({ brand, title, price, thumbnail }) => (
                         <Product
                             brand={brand}
@@ -97,6 +99,7 @@ const Homepage = () => {
                     ))}
                 </div>
             )}
+
 
             {loadmoreProducts && <ProductSkeleton count={12} />}
 
