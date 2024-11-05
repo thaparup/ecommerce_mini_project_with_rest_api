@@ -1,8 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import { TypeProductsRespnse } from "../types/typeProductsResponseObject";
 import Product from "../components/Product";
-import { FaArrowDown } from "react-icons/fa";
+import { FaArrowDown, FaChevronDown } from "react-icons/fa";
 import ProductSkeleton from "../components/ProductSkeleton";
+import PriceRange from "../components/Filters/PriceRange";
+import FilterByTitle from "../components/Filters/FilterByTitle";
+import Filters from './../components/Filters/index'
 
 const Homepage = () => {
     const [data, setData] = useState<TypeProductsRespnse | null>(null);
@@ -24,7 +27,7 @@ const Homepage = () => {
         const fetchProducts = async () => {
             try {
                 const res = await fetch(
-                    `https://dummyjson.com/products?limit=12&skip=${totalSkipped}&select=price,title,thumbnail,brand`
+                    'https://dummyjson.com/products?sortBy=title&order=desc'
                 );
                 const data: TypeProductsRespnse = await res.json();
                 setData((prev) => {
@@ -78,11 +81,43 @@ const Homepage = () => {
         }
     }, [data]);
 
+    const [toggle, setToggle] = useState(false);
+
+    const handleMouseDown = () => {
+        setToggle(prev => !prev)
+    };
+
+
+
+
     return (
         <div className="my-8 mx-12">
             <h1 className="text-2xl font-medium max-md:text-center">All Products</h1>
 
 
+
+            <Filters />
+            {/* 
+            <button id="myBtn " className="mt-8 border-2 border-black px-8 py-2 rounded-md " onMouseDown={handleMouseDown}> click</button>
+
+
+
+            <div className="parent" id="parent">
+                parent
+            </div>
+            <div className="child" id="child">Child</div>
+            <button id="myButton">Click me</button>
+            <div id="myDiv" className="bg-red-200 p-9">
+                <span id="mySpan">Click inside me</span>
+            </div> */}
+
+
+
+
+
+
+
+            {/* 
             {isLoadingProducts ? (
 
                 <ProductSkeleton count={12} />
@@ -117,7 +152,7 @@ const Homepage = () => {
                             </div>
                         </div>
                     </div>
-                )}
+                )} */}
         </div>
     );
 };
