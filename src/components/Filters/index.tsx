@@ -1,14 +1,19 @@
-import React from 'react'
-import FilterByTitle from './FilterByTitle'
-import PriceRange from './PriceRange'
+import React, { useContext, FC } from 'react';
+import FilterByTitle from './FilterByTitle';
+import PriceRange from './PriceRange';
 
-const index = () => {
+
+
+const Index: FC = ({ }) => {
+
+
     return (
-        <div className='flex gap-8 '>
+
+        <div className="flex gap-8">
             <FilterByTitle />
             <PriceRange />
         </div>
-    )
-}
+    );
+};
 
-export default index
+export default Index;

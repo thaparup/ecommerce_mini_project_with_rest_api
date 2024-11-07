@@ -44,7 +44,11 @@ const Product: React.FC<ProductProps> = ({
                     alt=""
                     className={`w-full h-[250px] max-xl:h-[270px] max-lg:h-[270px]  rounded-md bg-zinc-200 object-contain opacity-0 py-4 max-xl:py-0  ${isLoaded && ('opacity-100')}`}
                     onLoad={() => {
-                        setIsLoaded(true);
+
+                        setTimeout(() => {
+
+                            setIsLoaded(true);
+                        }, 500)
 
                     }}
                 />

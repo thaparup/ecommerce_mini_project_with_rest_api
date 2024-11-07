@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Navbar from "../components/Navbar";
 import { db } from "./../../firebase-config";
 import { collection, addDoc, query, where, getDocs } from "firebase/firestore";
@@ -66,10 +66,12 @@ const Register = () => {
     };
 
     return (
+
         <div>
             <Toaster position="top-right" theme="light" />
             <section className="h-screen overflow-hidden flex flex-col ">
                 <Navbar />
+
                 <div className=" my-auto w-fit mx-auto bg-white p-8 rounded-md">
                     <form action="" onSubmit={handleSubmit}>
                         <label htmlFor="" className="block font-medium">
@@ -113,7 +115,7 @@ const Register = () => {
                     </form>
                 </div>
             </section>
-        </div>
+        </div >
     );
 };
 

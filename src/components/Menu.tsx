@@ -15,12 +15,10 @@ type MenuProps = {
 const Menu: React.FC<MenuProps> = ({ buttonLabelOrIcon, styleButton, styleMenuContainer, children }): JSX.Element => {
 
 
-
-    const [menu, setMenu] = useState(false)
     const [menuHeight, setMenuHeight] = useState<string>('0px')
+    const [menu, setMenu] = useState(false)
     const menuRef = useRef<HTMLDivElement>(null)
     const buttonRef = useRef<HTMLButtonElement>(null)
-
 
     useEffect(() => {
 
@@ -39,13 +37,14 @@ const Menu: React.FC<MenuProps> = ({ buttonLabelOrIcon, styleButton, styleMenuCo
         return () => {
             document.removeEventListener('mousedown', handleMouseDown)
         }
-    }, [menu])
+    }, [menuRef.current])
 
 
     return (
         <button className={styleButton}
             ref={buttonRef}
             onClick={() => setMenu(!menu)}
+
         >
 
             {buttonLabelOrIcon}
@@ -53,14 +52,19 @@ const Menu: React.FC<MenuProps> = ({ buttonLabelOrIcon, styleButton, styleMenuCo
 
             {/*  ********************************************* MENU ************************************* MENU ****************************************** */}
             <div
-                className={`absolute shadow-md rounded-md bg-[#dddddd] transition-all duration-500 ease-out overflow-hidden ${styleMenuContainer} 
+                className={`absolute shadow-md rounded-md bg-[#dddddd] transition-all duration-500 ease-out overflow-hidden z-50styleMenuContainer} 
                     }`}
                 style={{ height: menu ? menuHeight : '0px' }}
                 ref={menuRef}
+                onClick={(e) => e.stopPropagation()}
             >
 
 
 
+                {/* <input type="checkbox" />
+                <label htmlFor="">cllcik</label>
+                <li>item 2</li>
+                <li>item 3</li> */}
                 {children}
 
             </div>

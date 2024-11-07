@@ -19,7 +19,7 @@ const Navbar: React.FC<NavbarProps> = () => {
                 <h3 className="text-2xl font-bold leading-0 text-purple-500 "><span className="text-primaryColor">e</span>Mart</h3>
                 <ul className='flex gap-4 self-end font-normal relative text-md '>
                     <li className={`after:content-[''] after:rounded-md after:h-1  after:block after:hover:w-0 after:transition-all after:duration-300 after:ease-in-out after:w-2/3 ${activeLink === 'Shop' && 'after:w-[70%] after:bg-primaryColor'}`}><Link
-                        to=''>Shop</Link></li>
+                        to='/'>Shop</Link></li>
                     <li className={`after:content-[''] after:rounded-md after:bg-primaryColor after:h-1 after:w-0 after:block hover:after:w-2/3 after:transition-all after:duration-300 after:ease-in-out  ${activeLink === 'Categories' && ' after:bg-primaryColor'}`} onMouseEnter={() => setActiveLink('Categories')} onMouseLeave={() => setActiveLink('Shop')}><Link to='/categories' >Categories</Link></li>
                     <li className={`after:content-[''] after:rounded-md after:bg-primaryColor after:h-1 after:w-0 after:block hover:after:w-2/3 after:transition-all after:duration-300 after:ease-in-out ${activeLink === 'Register' && 'after:w-full after:bg-primaryColor'}`} onMouseEnter={() => setActiveLink('Register')} onMouseLeave={() => setActiveLink('Shop')}><Link to='/register' >Register</Link></li>
                 </ul>
