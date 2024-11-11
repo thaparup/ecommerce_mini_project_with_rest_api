@@ -100,6 +100,7 @@ const Homepage = () => {
                             title={title}
                             price={price}
                             thumbnail={thumbnail}
+                            id={id}
                             key={id}
                         />
                     ))}

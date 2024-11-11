@@ -12,7 +12,7 @@ interface NavMenuForMediumAndSmallerDeviceProps {
 const NavMenuForMediumAndSmallerDevice: React.FC<NavMenuForMediumAndSmallerDeviceProps> = ({ menuBurger, setMenuBurger }) => {
 
     const cart = useSelector((state: RootState) => state.cart)
-    console.log(cart.totalQuantity)
+
     return (
         <div className="relative mx-8">
             <nav className={` flex md:hidden justify-between list-none mt-6 ${menuBurger && ''}`}>

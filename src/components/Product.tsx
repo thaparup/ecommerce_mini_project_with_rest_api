@@ -8,12 +8,14 @@ type ProductProps = {
     price: number;
     title: string;
     thumbnail: string;
+    id: number
 };
 const Product: React.FC<ProductProps> = ({
     brand,
     price,
     title,
     thumbnail,
+    id
 }: ProductProps) => {
     const [isClicked, setIsClicked] = useState(false);
     const [atc, setAtc] = useState<string>("Add to cart");
@@ -32,6 +34,7 @@ const Product: React.FC<ProductProps> = ({
                 price: price,
                 title: title,
                 thumbnail: thumbnail,
+                id: id,
             })
         );
         setTimeout(() => {
