@@ -3,6 +3,8 @@ import { CiShoppingCart } from "react-icons/ci"
 import { IoPersonOutline } from "react-icons/io5"
 import { Link } from "react-router-dom"
 import NavMenuForMediumAndSmallerDevice from "./NavMenuForMediumAndSmallerDevice"
+import { useSelector } from "react-redux"
+import { RootState } from "../../states/store/store"
 
 interface NavbarProps {
 
@@ -12,6 +14,8 @@ const Navbar: React.FC<NavbarProps> = () => {
     const [menuBurger, setMenuBurger] = useState(false)
     const [activeLink, setActiveLink] = useState<string>('Shop')
 
+
+    const cart = useSelector((state: RootState) => state.cart)
 
     return (
         <>
@@ -27,10 +31,11 @@ const Navbar: React.FC<NavbarProps> = () => {
                     <li className="flex gap-[3px] ">
                         <CiShoppingCart size={20} className='self-center text-primaryColor' />
                         <p>Cart</p>
-                        <p className='text-primaryColor'>0</p>
+                        <p className='text-purple-500 text-sm font-medium -translate-y-1 '>{cart.totalQuantity}</p>
+
                     </li>
                     <li className='flex gap-[3px] '>
-                        <IoPersonOutline size={18} className="self-center text-primaryColor" />
+                        <IoPersonOutline size={18} className="self-center text-primaryColor " />
                         <p className=''>Sign in</p>
                     </li>
                 </ul>
@@ -38,7 +43,7 @@ const Navbar: React.FC<NavbarProps> = () => {
 
 
 
-            </nav>
+            </nav >
 
             <NavMenuForMediumAndSmallerDevice menuBurger={menuBurger} setMenuBurger={setMenuBurger} />
         </>

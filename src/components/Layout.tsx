@@ -3,7 +3,7 @@ import { Routes, Route, useLocation } from "react-router-dom";
 import Register from "../pages/Register";
 import Categories from "../pages/Categories";
 import Homepage from "../pages/Homepage";
-import { FilterContextProvider } from "../context/FilterContext";
+import { FilterContextProvider } from "../states/context/FilterContext";
 
 const Layout = () => {
   const location = useLocation();

@@ -48,6 +48,29 @@ body {
   }
 }
 
+@keyframes animationMenu {
+  0% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(8px);
+  }
+  100% {
+    transform: translate(0px);
+  }
+}
+
+.animateMenu {
+  animation: animationMenu;
+  animation-duration: 2.2s;
+  animation-timing-function: ease;
+  animation-delay: 0;
+  animation-iteration-count: infinite;
+  animation-duration: normal;
+  animation-fill-mode: none;
+}
+
 .divLoadMore::after {
   content: "he";
   display: block;

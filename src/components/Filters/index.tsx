@@ -1,6 +1,6 @@
-import React, { useContext, FC } from 'react';
+import { FC } from 'react';
 import FilterByTitle from './FilterByTitle';
-import PriceRange from './PriceRange';
+import FilterByPrice from './FilterByPrice';
 
 
 
@@ -9,9 +9,9 @@ const Index: FC = ({ }) => {
 
     return (
 
-        <div className="flex gap-8">
+        <div className="flex  justify-between max-[460px]:flex-col max-[460px]:items-center">
             <FilterByTitle />
-            <PriceRange />
+            <FilterByPrice />
         </div>
     );
 };

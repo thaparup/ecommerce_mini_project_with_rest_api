@@ -1,5 +1,8 @@
 import { CiLogout, CiShoppingCart } from 'react-icons/ci'
 import { IoPersonOutline } from 'react-icons/io5'
+import { useSelector } from 'react-redux'
+import { RootState } from '../../states/store/store'
+
 
 
 interface NavMenuForMediumAndSmallerDeviceProps {
@@ -8,7 +11,8 @@ interface NavMenuForMediumAndSmallerDeviceProps {
 }
 const NavMenuForMediumAndSmallerDevice: React.FC<NavMenuForMediumAndSmallerDeviceProps> = ({ menuBurger, setMenuBurger }) => {
 
-
+    const cart = useSelector((state: RootState) => state.cart)
+    console.log(cart.totalQuantity)
     return (
         <div className="relative mx-8">
             <nav className={` flex md:hidden justify-between list-none mt-6 ${menuBurger && ''}`}>
