@@ -58,10 +58,10 @@ const Navbar: React.FC = () => {
                             </div>
                         </div>
                         <li
-                            className={`ml-5 after:content-[''] after:rounded-md after:bg-primaryColor after:h-1 after:w-0 after:block after:transition-all after:duration-300 after:ease-in-out ${activeLink === "/checkout" && "after:w-2/3 after:bg-primaryColor"
+                            className={`ml-5 after:content-[''] after:rounded-md after:bg-primaryColor after:h-1 after:w-0 after:block after:transition-all after:duration-300 after:ease-in-out ${activeLink === "/cart" && "after:w-2/3 after:bg-primaryColor"
                                 }`}
                         >
-                            <Link to="/checkout">Cart</Link>
+                            <Link to="/cart">Cart</Link>
                         </li>
                     </li>
                     <li className="flex gap-[3px] ">

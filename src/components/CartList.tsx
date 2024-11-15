@@ -1,28 +1,16 @@
-import { FC } from "react"
+import { FC } from 'react'
+import { RootState } from '../states/store/store'
+import { useSelector } from 'react-redux'
+import CartItem from './CartItem'
 
 
-type CartListProps = {
-    thumbnail: string;
-    title: string,
-    brand: string,
-    price: number,
-    quantity: number
+const CartList: FC = () => {
+    const cart = useSelector((state: RootState) => state.cart.cart)
 
-}
-const CartList: FC<CartListProps> = ({ thumbnail, title, brand, price, quantity }): JSX.Element => {
     return (
-        <div className="flex justify-around my-3 bg-[#f7f7f7]  rounded-md shadow-md items-center">
-            <img src={thumbnail} alt="" className="w-[130px] h-[120px]  object-contain" />
-            <div className="">
-                <h3 className="text-md font-medium">{title}</h3>
-                <h6 className="text-sm font-light text-gray-4300">{brand}</h6>
-            </div>
-            <h3 className="text-lg text-primaryColor font-semibold "> ${price}</h3>
-            <div className="flex">
-                <button className="bg-slate-200 px-2 rounded-md">-</button>
-                <p className="px-3 ">{quantity}</p>
-                <button className="bg-gray-200 px-2 rounded-md">+</button>
-            </div>
+        <div className="basis-[65%] ">
+
+            {cart.map(({ id, title, thumbnail, brand, quantity, price }) => <CartItem thumbnail={thumbnail} price={price} quantity={quantity || 0} brand={brand} title={title} key={id} id={id} />)}
         </div>
     )
 }

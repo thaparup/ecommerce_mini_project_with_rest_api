@@ -109,6 +109,19 @@ body {
   z-index: 20;
 }
 
+@keyframes modalAnimate {
+  0% {
+    transform: translateY(-44rem);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+.modalAnimation {
+  animation: modalAnimate;
+  animation-duration: 3ms;
+}
+
 @keyframes cartAnimate {
   0% {
     transform: translate(0px, 8px);
@@ -167,32 +180,6 @@ body {
   animation: skeletonAnimation 1s ease-in-out infinite alternate;
 }
 
-/* nav ul li ::after {
-  content: "";
-  background: red;
-  height: 3px;
-  width: 0%;
-  display: block;
-}
-nav ul li :hover::after {
-  width: 100%;
-} */
-
-nav ul li {
-  /* position: relative; */
-}
-/* nav ul li ::after {
-  content: "";
-  display: block;
-  background: red;
-  height: 3px;
-  width: 0%;
-  transition: width 0.3s ease;
-}
-
-nav ul li:hover ::after {
-  width: 100%;
-} */
 .myInput {
   box-shadow: 1px 1px 2px 1px rgba(15, 2, 2, 0.2);
 }
@@ -259,3 +246,8 @@ nav ul li:hover ::after {
     @apply bg-background text-foreground;
   }
 }
+/* .leaflet-container {
+  width: 100%;
+  height: 70vh;
+  border-radius: 12px;
+} */
