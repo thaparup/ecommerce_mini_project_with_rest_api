@@ -5,6 +5,8 @@ import Categories from "../pages/Categories";
 import Homepage from "../pages/Homepage";
 import { FilterContextProvider } from "../states/context/FilterContext";
 import Cart from "../pages/Cart";
+import PaymentSuccess from "../pages/PaymentSuccess";
+import ConfirmMethodOfPayment from "../pages/ConfirmMethodOfPayment";
 
 const Layout = () => {
   const location = useLocation();
@@ -24,6 +26,8 @@ const Layout = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/categories" element={<Categories />} />
         <Route path="/cart" element={<Cart />} />
+        <Route path="/success" element={<PaymentSuccess />} />
+        <Route path="/cart/confirm" element={<ConfirmMethodOfPayment />} />
       </Routes>
     </>
   );

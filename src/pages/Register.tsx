@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import { db } from "./../../firebase-config";
 import { collection, addDoc, query, where, getDocs } from "firebase/firestore";
@@ -21,6 +21,27 @@ const Register = () => {
         console.log(querySnapshot);
         return !querySnapshot.empty;
     };
+    const [num, setNum] = useState<number[]>([])
+    useEffect(() => {
+
+    }, [num])
+    localStorage.setItem('arrayOfNumber', JSON.stringify(num))
+    const getArrayOfNumber = localStorage.getItem('arrayOfNumber')
+    const parsedGetArrayOfNumber = (getArrayOfNumber ? JSON.parse(getArrayOfNumber) : null)
+    console.log(typeof parsedGetArrayOfNumber)
+    const handleAddNum = (num: number) => {
+
+        setNum((previouslyStoredNumber) => [...previouslyStoredNumber, num])
+
+    }
+    const localStor = localStorage.setItem('localStor', 'Peter')
+    const getLocalStor = localStorage.getItem('localStor')
+
+    localStorage.setItem('numLocal', JSON.stringify(3))
+    const numLocal = localStorage.getItem('numLocal')
+    const localElement = localStorage.getItem('arrayOfNum')
+    console.log(typeof getLocalStor)
+    console.log(typeof numLocal)
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -68,6 +89,8 @@ const Register = () => {
     return (
 
         <div>
+            <button onClick={() => handleAddNum(41)}>Add to local storage</button>
+
             <Toaster position="top-right" theme="light" />
             <section className="h-screen overflow-hidden flex flex-col ">
                 <Navbar />

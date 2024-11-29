@@ -53,7 +53,7 @@ const Navbar: React.FC = () => {
                             />
                             <div className="bg-primaryColor h-5 w-5 flex rounded-full absolute top-3 left-3 self-center">
                                 <p className="mx-auto self-center text-white text-sm font-medium">
-                                    {cart.totalQuantity}
+                                    {cart.totalQuantity || 0}
                                 </p>
                             </div>
                         </div>

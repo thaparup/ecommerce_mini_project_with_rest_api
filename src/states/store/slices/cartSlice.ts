@@ -11,8 +11,8 @@ type Cart = {
 };
 
 const initialState: Cart = {
-  cart: [],
-  totalQuantity: 0,
+  cart: JSON.parse(localStorage.getItem("cart") || "[]"),
+  totalQuantity: JSON.parse(localStorage.getItem("totalQuantity") || "null"),
 };
 
 export const CartSlice = createSlice({
@@ -30,9 +30,76 @@ export const CartSlice = createSlice({
       }
 
       state.totalQuantity += 1;
+
+      localStorage.setItem("cart", JSON.stringify(state.cart));
+      localStorage.setItem(
+        "totalQuantity",
+        JSON.stringify(state.totalQuantity)
+      );
+    },
+    clearCart: (state) => {
+      state.cart = [];
+      state.totalQuantity = 0;
+
+      localStorage.setItem("cart", JSON.stringify(state.cart));
+      localStorage.setItem(
+        "totalQuantity",
+        JSON.stringify(state.totalQuantity)
+      );
+    },
+
+    deleteWholeItemFromTheCart: (state, actions: PayloadAction<CartItem>) => {
+      state.cart = state.cart.filter((cart) => cart.id !== actions.payload.id);
+
+      state.totalQuantity =
+        state.totalQuantity - (actions.payload.quantity || 0);
+
+      localStorage.setItem("cart", JSON.stringify(state.cart));
+      localStorage.setItem(
+        "totalQuantity",
+        JSON.stringify(state.totalQuantity)
+      );
+    },
+
+    removeFromTheCart: (state, actions: PayloadAction<CartItem>) => {
+      const findTheProductInTheCart = state.cart.find(
+        (ele) => ele.id === actions.payload.id
+      );
+
+      if (findTheProductInTheCart) {
+        if (findTheProductInTheCart.quantity === 1) {
+          const filterTheElementExceptFindTheProductInTheCartElement =
+            state.cart.filter((ele) => ele.id !== findTheProductInTheCart.id);
+          state.cart = filterTheElementExceptFindTheProductInTheCartElement;
+          console.log(findTheProductInTheCart);
+          state.totalQuantity = state.totalQuantity - 1;
+
+          localStorage.setItem("cart", JSON.stringify(state.cart));
+          localStorage.setItem(
+            "totalQuantity",
+            JSON.stringify(state.totalQuantity)
+          );
+        } else {
+          findTheProductInTheCart.quantity = findTheProductInTheCart.quantity
+            ? findTheProductInTheCart.quantity - 1
+            : 0;
+
+          state.totalQuantity = state.totalQuantity - 1;
+        }
+      }
+      localStorage.setItem("cart", JSON.stringify(state.cart));
+      localStorage.setItem(
+        "totalQuantity",
+        JSON.stringify(state.totalQuantity)
+      );
     },
   },
 });
 
-export const { addToCart } = CartSlice.actions;
+export const {
+  addToCart,
+  deleteWholeItemFromTheCart,
+  removeFromTheCart,
+  clearCart,
+} = CartSlice.actions;
 export default CartSlice.reducer;
