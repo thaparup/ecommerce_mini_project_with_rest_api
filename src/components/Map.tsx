@@ -5,6 +5,7 @@ import { LiaTimesSolid } from "react-icons/lia";
 import React, { Dispatch, SetStateAction } from "react";
 import useFetch from "../hooks/useFetch";
 import { LeafletEvent, LeafletEventHandlerFnMap } from "leaflet";
+import { useAddressContext } from "../states/context/AddressContext";
 
 type MapProps = {
     showModal: boolean;
@@ -15,12 +16,12 @@ type MapProps = {
 
 
 
-const Map = ({ showModal, setShowModal, address, setAddress }: MapProps) => {
+const Map = ({ showModal, setShowModal, }: MapProps) => {
 
 
     const [position, setPosition] = useState({ lat: 27.7103, lng: 85.3222 });
     const modalRef = useRef<HTMLDivElement>(null);
-
+    const { address, setAddress } = useAddressContext()
 
     const eventHandlers: LeafletEventHandlerFnMap = {
 

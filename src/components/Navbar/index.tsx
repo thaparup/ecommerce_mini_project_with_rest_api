@@ -20,7 +20,7 @@ const Navbar: React.FC = () => {
 
     return (
         <>
-            <nav className="flex justify-between mt-6 mx-12 max-md:hidden">
+            <nav className="flex justify-between mt-6 mx-12 max-md:hidden ">
                 <h3 className="text-2xl font-bold leading-0 text-purple-500 ">
                     <span className="text-primaryColor">e</span>Mart
                 </h3>

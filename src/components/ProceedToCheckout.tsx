@@ -8,14 +8,24 @@ import {
     clearCart,
     deleteWholeItemFromTheCart,
 } from "../states/store/slices/cartSlice";
-import { useLocation } from "react-router-dom";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import PaymentSuccess from "../pages/PaymentSuccess";
+import { useAddressContext } from "../states/context/AddressContext";
+import { useCheckoutContext } from "../states/context/CheckoutContext";
 
-const Checkout: FC = () => {
+const ProceedToCheckout: FC = () => {
+    const { checkoutState } = useCheckoutContext()
+
+    console.log("first", checkoutState.isCartConfirmed)
+    if (!checkoutState.isCartConfirmed) {
+        return <Navigate to='/cart' />
+    }
+    console.log("hello world")
+
     const cart = useSelector((state: RootState) => state.cart);
     const dispatch = useDispatch();
     const [showModal, setShowModal] = useState<boolean>(false);
-    const [address, setAddress] = useState<string>("");
+    const { address } = useAddressContext()
     console.log(address);
     const sum = cart.cart.reduce(
         (acc, cv) => (acc += (cv.quantity || 1) * cv.price),
@@ -44,6 +54,9 @@ const Checkout: FC = () => {
         dispatch(clearCart());
     }
 
+
+    console.log(checkoutState)
+    const navigate = useNavigate()
     const submitHandler = (event: React.SyntheticEvent) => {
         event.preventDefault();
         // if (!address) {
@@ -144,7 +157,7 @@ const Checkout: FC = () => {
                                 disabled={cart.totalQuantity == 0}
                                 type="submit"
                             >
-                                Checkout
+                                Proceed
                             </button>
                         </div>
                     </div>
@@ -154,4 +167,4 @@ const Checkout: FC = () => {
     );
 };
 
-export default Checkout;
+export default ProceedToCheckout;
