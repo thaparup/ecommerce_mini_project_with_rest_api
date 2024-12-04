@@ -17,28 +17,39 @@ const CheckoutModal = ({ modal, setModal, methodOfPayment }: { modal: boolean, s
     );
     const amtInNrs = (sum * 135).toFixed();
 
+
     const randomAlphaNumericString = "123456789ABCDEFGHIJKLMONOQRSTUVWQYZX";
 
     let alphanum = "";
     for (let i = 0; i <= 5; i++) {
         alphanum += randomAlphaNumericString[Math.round(Math.random() * 36)];
     }
+
+
     const handleClick = () => {
         if (methodOfPayment === 'esewa') {
             // const paymentURL = `https://uat.esewa.com.np/epay/main?amt=${amtInNrs}&tAmt=${amtInNrs}&txAmt=0&scd=EPAYTEST&pid=${alphanum}&psc=0&su=http:localhost.5173/cart/success&fu=https://developer.esewa.com.np/failure&pdc=0&secret_key=8gBm/:&EnhH.1/q`;
 
             // window.location.href = paymentURL
             alert('payment esewa')
+            localStorage.setItem('checkout', JSON.stringify({
+                isCartConfirmed: true,
+                isPaymentConfirmed: false
+            }))
         }
 
         if (methodOfPayment === 'cod') {
+            localStorage.setItem('checkout', JSON.stringify({
+                isCartConfirmed: true,
+                isPaymentConfirmed: true
+            }))
             window.location.href = 'http://localhost:5173/success'
         }
     }
 
-    const mouseDowmHandler = (event) => {
+    const mouseDowmHandler = (event: MouseEvent) => {
 
-        if (modalRef.current && !modalRef.current.contains(event.target)) {
+        if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
 
             setModal(false)
 

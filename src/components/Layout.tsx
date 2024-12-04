@@ -17,13 +17,16 @@ const Layout = () => {
     <>
       {location.pathname !== "/register" && <Navbar />}
       <CheckoutContextProvider>
-        <Routes>
+        <AddressContextProvider>
 
-          <Route path="/success" element={<PaymentSuccess />} />
+          <Routes>
 
-          <Route path="/cart" element={<AddressContextProvider><Cart /></AddressContextProvider>} />
-          <Route path="/cart/confirm" element={<AddressContextProvider><ConfirmMethodOfPayment /></AddressContextProvider>} />
-        </Routes>
+            <Route path="/success" element={<PaymentSuccess />} />
+
+            <Route path="/cart" element={<AddressContextProvider><Cart /></AddressContextProvider>} />
+            <Route path="/cart/confirm" element={<AddressContextProvider><ConfirmMethodOfPayment /></AddressContextProvider>} />
+          </Routes>
+        </AddressContextProvider>
 
       </CheckoutContextProvider>
       <Routes>
@@ -39,10 +42,9 @@ const Layout = () => {
         />
         <Route path="/register" element={<Register />} />
         <Route path="/categories" element={<Categories />} />
-        <Route path="/success" element={<PaymentSuccess />} />
+        {/* <Route path="/success" element={<PaymentSuccess />} /> */}
 
 
-        <Route path="/cart/confirm" element={<CheckoutContextProvider><AddressContextProvider><ConfirmMethodOfPayment /></AddressContextProvider></CheckoutContextProvider>} /> */}
       </Routes>
     </>
   );

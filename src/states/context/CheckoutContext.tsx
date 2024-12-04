@@ -8,16 +8,16 @@ type Checkout = {
 type CheckoutContextType = {
     checkoutState: Checkout;
     setCheckoutState: Dispatch<SetStateAction<Checkout>>;
+
 };
 
 const CheckoutContext = createContext<CheckoutContextType | null>(null);
 
 export const CheckoutContextProvider = ({ children }: { children: ReactNode }) => {
-    const [checkoutState, setCheckoutState] = useState<Checkout>({
-        isCartConfirmed: false,
-        isPaymentConfirmed: false,
-    });
 
+    const [checkoutState, setCheckoutState] = useState<Checkout>({
+        isCartConfirmed: false, isPaymentConfirmed: false
+    })
     return (
         <CheckoutContext.Provider value={{ checkoutState, setCheckoutState }}>
             {children}

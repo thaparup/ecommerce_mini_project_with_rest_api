@@ -22,7 +22,7 @@ const CartItem: FC<CartItemProps> = ({
 }): JSX.Element => {
     const [noq, setNoq] = useState<number>(quantity);
     const dispatch = useDispatch();
-
+    const [isImageLoading, setIsImageLoading] = useState<boolean>(false)
     const handleIncrement = (id: number) => {
         setNoq((prev) => prev + 1);
         dispatch(
@@ -51,7 +51,8 @@ const CartItem: FC<CartItemProps> = ({
     return (
         <div className="grid grid-cols-6 gap-2 my-3 bg-[#f7f7f7] rounded-md shadow-md items-center ">
             <div className="flex col-start-1 col-end-5 items-center gap-4">
-                <img src={thumbnail} alt="" className=" h-[120px] " />
+                {!isImageLoading && (<div className=" ml-2 skeleton rounded-md  w-[100px] h-[100px] "> </div>)}
+                <img src={thumbnail} alt="" className=" h-[120px] " onLoad={() => { setIsImageLoading(true) }} />
                 <div className="max-sm:text-sm">
                     <h3 className="text-md font-medium">{title}</h3>
                     <h6 className="text-sm font-light text-gray-4300">{brand}</h6>

@@ -3,14 +3,19 @@ import { createContext, Dispatch, ReactNode, SetStateAction, useContext, useStat
 
 
 type TypeAddressContext = {
-    address: string,
-    setAddress: Dispatch<SetStateAction<string>>
+    address: string | '',
+    setAddress: Dispatch<SetStateAction<string>>;
 }
 const AddressContext = createContext<TypeAddressContext | null>(null)
 
 export const AddressContextProvider = ({ children }: { children: ReactNode }) => {
 
-    const [address, setAddress] = useState<string>('')
+
+
+
+
+    const [address, setAddress] = useState(JSON.parse(localStorage.getItem('address')!))
+
     return (
         <AddressContext.Provider value={{ address, setAddress }}>
             {children}
@@ -22,7 +27,7 @@ export const useAddressContext = () => {
 
     const context = useContext(AddressContext)
     if (!context) {
-        throw new Error('useFilterContext must be used within a AddressContextProvider')
+        throw new Error('useAddressContext must be used within a AddressContextProvider')
     }
     return context;
 }

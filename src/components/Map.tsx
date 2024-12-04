@@ -23,6 +23,7 @@ const Map = ({ showModal, setShowModal, }: MapProps) => {
     const modalRef = useRef<HTMLDivElement>(null);
     const { address, setAddress } = useAddressContext()
 
+
     const eventHandlers: LeafletEventHandlerFnMap = {
 
         dragend: (event: LeafletEvent) => {
@@ -42,7 +43,12 @@ const Map = ({ showModal, setShowModal, }: MapProps) => {
 
             const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`);
             const responseData = await response.json()
-            setAddress(responseData.display_name)
+            setAddress((prev) => {
+                localStorage.setItem('address', JSON.stringify(responseData.display_name))!
+                prev = JSON.parse(localStorage.getItem('address')!)
+                return responseData.display_name
+            })
+            console.log(address)
             if (!response.ok) {
                 throw new Error(`Error: ${response.status}`);
             }
@@ -53,6 +59,11 @@ const Map = ({ showModal, setShowModal, }: MapProps) => {
         } finally {
         }
     };
+
+    // useEffect(() => {
+    //     console.log(address)
+
+    // }, [setAddress])
 
     useEffect(() => {
 
@@ -93,34 +104,32 @@ const Map = ({ showModal, setShowModal, }: MapProps) => {
 
     return (
         <>
-            <div
-                className={` fixed inset-0 z-50 flex justify-center items-center transition-all duration-500 ease-in-out ${showModal ? " opacity-100 translate-y-0" : "opacity-0 -translate-y-[44rem]"
-                    }`}
-            >
-                <div className="bg-white rounded-md w-[70%] h-[90%] p-16 relative flex" ref={modalRef}>
-                    <MapContainer
-                        center={position}
-                        zoom={27}
-                        scrollWheelZoom={false}
-                        className="w-full h-full  bg-red-200"
-                    >
-                        <TileLayer
-                            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                        />
-                        <Marker position={position} draggable eventHandlers={eventHandlers}>
-                            <Popup>I live here</Popup>
-                        </Marker>
-                        {/* <RecenterMap position={position} /> */}
-                    </MapContainer>
-                    <button
-                        className="absolute p-2 rounded-[100%] top-2 left-2 hover:bg-[#dddddd]"
-                        onClick={() => setShowModal(false)}
-                    >
-                        <LiaTimesSolid size={18} />
-                    </button>
-                </div>
+
+            <div className="bg-white rounded-md w-[70%] h-[90%] p-16 relative flex" ref={modalRef}>
+                <MapContainer
+                    center={position}
+                    zoom={27}
+                    scrollWheelZoom={false}
+                    className="w-full h-full "
+
+                >
+                    <TileLayer
+                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    />
+                    <Marker position={position} draggable eventHandlers={eventHandlers}>
+                        <Popup>I live here</Popup>
+                    </Marker>
+                    {/* <RecenterMap position={position} /> */}
+                </MapContainer>
+                <button
+                    className="absolute p-2 rounded-[100%] top-2 left-2 hover:bg-[#dddddd]"
+                    onClick={() => setShowModal(false)}
+                >
+                    <LiaTimesSolid size={18} />
+                </button>
             </div>
+
         </>
     );
 };

@@ -14,26 +14,17 @@ import { useAddressContext } from "../states/context/AddressContext";
 import { useCheckoutContext } from "../states/context/CheckoutContext";
 
 const ProceedToCheckout: FC = () => {
-    const { checkoutState } = useCheckoutContext()
-
-    console.log("first", checkoutState.isCartConfirmed)
-    if (!checkoutState.isCartConfirmed) {
-        return <Navigate to='/cart' />
-    }
-    console.log("hello world")
 
     const cart = useSelector((state: RootState) => state.cart);
     const dispatch = useDispatch();
     const [showModal, setShowModal] = useState<boolean>(false);
-    const { address } = useAddressContext()
-    console.log(address);
+    // const [address, setAddress] = useState<string>()
+    const { address, setAddress } = useAddressContext()
     const sum = cart.cart.reduce(
         (acc, cv) => (acc += (cv.quantity || 1) * cv.price),
         0
     );
-    const amtInNrs = (sum * 135).toFixed();
     useEffect(() => {
-        // Check if the URL contains a success indicator
         const queryParams = new URLSearchParams(location.search);
         const isSuccess = queryParams.get("success"); // Adjust based on your eSewa success indicator
 
@@ -55,20 +46,31 @@ const ProceedToCheckout: FC = () => {
     }
 
 
-    console.log(checkoutState)
-    const navigate = useNavigate()
+
+
     const submitHandler = (event: React.SyntheticEvent) => {
         event.preventDefault();
-        // if (!address) {
-        //     toast.warning("Please select the place for the delivery", {
-        //         style: { color: "red" },
-        //         duration: 3000,
-        //     });
-        //     return;
-        // }
+        if (!address) {
+            toast.warning("Please select the place for the delivery from the map", {
+                style: { color: "red" },
+                duration: 2000,
+            });
+            return;
+        }
 
         // const paymentURL = `https://uat.esewa.com.np/epay/main?amt=${amtInNrs}&tAmt=${amtInNrs}&txAmt=0&scd=EPAYTEST&pid=${alphanum}&psc=0&su=https://developer.esewa.com.np/success${location.search}&fu=https://developer.esewa.com.np/failure&pdc=0&secret_key=8gBm/:&EnhH.1/q`;
-
+        if (!localStorage.getItem('checkout')) {
+            // If it doesn't exist, create it with a default value
+            localStorage.setItem('checkout', JSON.stringify({
+                isCartConfirmed: true,
+                isPaymentConfirmed: false
+            }));
+        } else {
+            localStorage.setItem('checkout', JSON.stringify({
+                isCartConfirmed: true,
+                isPaymentConfirmed: false
+            }))
+        }
         window.location.href = `http://localhost:5173/cart/confirm`
     };
     return (
@@ -78,7 +80,14 @@ const ProceedToCheckout: FC = () => {
             onSubmit={submitHandler}
         >
             <div className="basis-[35%] pt-4 ">
-                {/* <Map showModal={showModal} setShowModal={setShowModal} address={address} setAddress={setAddress} /> */}
+                {showModal ?
+                    <div className="fixed inset-0 z-50 flex justify-center items-center transition-all duration-500 ease-in-out ">
+                        <Map showModal={showModal} setShowModal={setShowModal} address={address} setAddress={setAddress} />
+
+
+                    </div>
+                    : null}
+
                 <div className="flex flex-col bg-white gap-4">
                     <button
                         type="button"
@@ -156,6 +165,7 @@ const ProceedToCheckout: FC = () => {
                                 className="bg-gradient-to-r from-primaryColor to-purple-500 px-10 hover:bg-gradient-to-l  py-2 text-white font-medium rounded-md hover:shadow-md"
                                 disabled={cart.totalQuantity == 0}
                                 type="submit"
+
                             >
                                 Proceed
                             </button>

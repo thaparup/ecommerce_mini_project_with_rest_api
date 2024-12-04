@@ -5,14 +5,15 @@ import { toast, Toaster } from 'sonner'
 import CheckoutModal from '../components/CheckoutModal'
 import { useCheckoutContext } from '../states/context/CheckoutContext'
 import { Navigate } from 'react-router-dom'
+import { useAddressContext } from '../states/context/AddressContext'
 
 const ConfirmMethodOfPayment = () => {
 
-    const { checkoutState } = useCheckoutContext()
-    console.log("first", checkoutState.isCartConfirmed)
-    if (!checkoutState.isCartConfirmed) {
-        return <Navigate to='/cart' />
-    }
+    const storage = JSON.parse(localStorage.getItem('checkout')!)
+    console.log(storage.isCartConfirmed)
+    // if () {
+    //     return <Navigate to='/cart' />
+    // }
     console.log("hello world")
     const cart = useSelector((state: RootState) => state.cart)
     const [modal, setModal] = useState<boolean>(false)
@@ -22,8 +23,7 @@ const ConfirmMethodOfPayment = () => {
     );
 
     const [checkout, setCheckout] = useState<string>('')
-
-
+    const { address } = useAddressContext()
     const handleClick = () => {
         if (!checkout) {
 
@@ -34,6 +34,10 @@ const ConfirmMethodOfPayment = () => {
             return;
 
         }
+
+        // 
+
+
         setModal(true)
 
 
@@ -51,7 +55,7 @@ const ConfirmMethodOfPayment = () => {
                         <div className="list-none grid grid-cols-12 text-[15px] italic font-light pb-2">
                             <li className='col-span-8'>{item.title}</li>
                             <li className='col-span-2'>Qty. {item.quantity}</li>
-                            <li className='col-span-2'>Rs. {(item.price * 135).toFixed()}</li>
+                            <li className='col-span-2'>Rs. {item.price.toFixed()}</li>
                         </div>
                         <hr className='pt-2' />
                     </div>
@@ -67,7 +71,7 @@ const ConfirmMethodOfPayment = () => {
 
             <div className='grid grid-cols-12 my-2 mt-6'>
                 <h1 className='text-xl font-medium col-span-8 underline'>Your Delivery Address</h1>
-                <h4 className='italic col-span-4'>Birauta pokharafdfdfdfdfdfdf</h4>
+                <h4 className='italic col-span-4'>{address}</h4>
             </div>
             <hr className='pt-2' />
             <h1 className='text-xl font-medium mt-8 underline'>Confirm your shopping</h1>
