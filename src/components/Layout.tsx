@@ -9,29 +9,30 @@ import PaymentSuccess from "../pages/PaymentSuccess";
 import ConfirmMethodOfPayment from "../pages/ConfirmMethodOfPayment";
 import { AddressContextProvider } from "../states/context/AddressContext";
 import { CheckoutContextProvider } from "../states/context/CheckoutContext";
+import PrivateRoute from "./PrivateRoute";
+import Signin from "../pages/Singin";
 
 const Layout = () => {
   const location = useLocation();
 
   return (
     <>
-      {location.pathname !== "/register" && <Navbar />}
+      {/* {location.pathname !== "/auth/register" && <Navbar />} */}
+      <Navbar />
       <CheckoutContextProvider>
         <AddressContextProvider>
-
           <Routes>
+            <Route element={<PrivateRoute />}>
 
-            <Route path="/success" element={<PaymentSuccess />} />
+              <Route path="/success" element={<PaymentSuccess />} />
 
-            <Route path="/cart" element={<AddressContextProvider><Cart /></AddressContextProvider>} />
-            <Route path="/cart/confirm" element={<AddressContextProvider><ConfirmMethodOfPayment /></AddressContextProvider>} />
+              <Route path="/cart" element={<Cart />} />
+              <Route path="/cart/confirm" element={<ConfirmMethodOfPayment />} />
+            </Route>
           </Routes>
         </AddressContextProvider>
-
       </CheckoutContextProvider>
       <Routes>
-
-
         <Route
           path="/"
           element={
@@ -40,11 +41,9 @@ const Layout = () => {
             </FilterContextProvider>
           }
         />
-        <Route path="/register" element={<Register />} />
+        <Route path="/auth/register" element={<Register />} />
+        <Route path="/auth/signin" element={<Signin />} />
         <Route path="/categories" element={<Categories />} />
-        {/* <Route path="/success" element={<PaymentSuccess />} /> */}
-
-
       </Routes>
     </>
   );

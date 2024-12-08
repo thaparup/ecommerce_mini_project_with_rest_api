@@ -4,4 +4,5 @@ export type typeProduct = {
   price: number;
   brand: string;
   thumbnail: string;
+  quantity?: number;
 };

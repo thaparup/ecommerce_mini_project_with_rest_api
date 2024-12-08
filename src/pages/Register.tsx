@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import { db } from "./../../firebase-config";
 import { collection, addDoc, query, where, getDocs } from "firebase/firestore";
+import { createUserWithEmailAndPassword, getAuth } from "firebase/auth"
 import { toast } from "sonner";
 import { Toaster } from "../components/ui/sonner";
 
@@ -14,7 +15,7 @@ const Register = () => {
 
     const emailRegex = /^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/;
     const userRef = collection(db, "users");
-
+    const auth = getAuth();
     const checkIfUserExists = async (email: string) => {
         const q = query(userRef, where("email", "==", email));
         const querySnapshot = await getDocs(q);
@@ -25,23 +26,13 @@ const Register = () => {
     useEffect(() => {
 
     }, [num])
-    localStorage.setItem('arrayOfNumber', JSON.stringify(num))
-    const getArrayOfNumber = localStorage.getItem('arrayOfNumber')
-    const parsedGetArrayOfNumber = (getArrayOfNumber ? JSON.parse(getArrayOfNumber) : null)
-    console.log(typeof parsedGetArrayOfNumber)
+
     const handleAddNum = (num: number) => {
 
         setNum((previouslyStoredNumber) => [...previouslyStoredNumber, num])
 
     }
-    const localStor = localStorage.setItem('localStor', 'Peter')
-    const getLocalStor = localStorage.getItem('localStor')
-
-    localStorage.setItem('numLocal', JSON.stringify(3))
-    const numLocal = localStorage.getItem('numLocal')
-    const localElement = localStorage.getItem('arrayOfNum')
-    console.log(typeof getLocalStor)
-    console.log(typeof numLocal)
+    document.body.style.overflowY = 'hidden'
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -68,32 +59,44 @@ const Register = () => {
             return;
         }
 
-        const userExists = await checkIfUserExists(email);
-        if (userExists) {
-            toast("User already exists");
-            return;
-        }
+        // const userExists = await checkIfUserExists(email);
+        // if (userExists) {
+        //     toast("User already exists");
+        //     return;
+        // }
 
+        // try {
+        //     await addDoc(userRef, { email: email, password: password });
+        //     toast("User registered successfully");
+
+        //     setEmail("");
+        //     setPassword("");
+        // } catch (error) {
+        //     console.error("Error adding document:", error);
+        //     toast("Failed to register user");
+        // }
         try {
-            await addDoc(userRef, { email: email, password: password });
-            toast("User registered successfully");
+            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+            console.log("User signed up:", userCredential.user);
 
+            // Clear the input fields
             setEmail("");
             setPassword("");
+
+            toast("User registered successfully");
         } catch (error) {
-            console.error("Error adding document:", error);
+            console.error("Error signing up user:", error);
             toast("Failed to register user");
         }
+
     };
 
     return (
 
         <div>
-            <button onClick={() => handleAddNum(41)}>Add to local storage</button>
 
             <Toaster position="top-right" theme="light" />
-            <section className="h-screen overflow-hidden flex flex-col ">
-                <Navbar />
+            <section className="h-screen overflow-hidden flex flex-col mb-20">
 
                 <div className=" my-auto w-fit mx-auto bg-white p-8 rounded-md">
                     <form action="" onSubmit={handleSubmit}>
