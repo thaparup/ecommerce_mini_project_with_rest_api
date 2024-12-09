@@ -1,7 +1,9 @@
 import React, { useRef, useState } from "react";
 import { FaBox, FaShoppingCart } from "react-icons/fa";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../states/store/slices/cartSlice";
+import { RootState } from "../states/store/store";
+import { Navigate, useNavigate } from "react-router-dom";
 
 type ProductProps = {
     brand: string;
@@ -22,8 +24,10 @@ const Product: React.FC<ProductProps> = ({
     const addToCartRef = useRef<boolean>(false);
 
     const dispatch = useDispatch();
+    const handleATC = () => {
 
-    const handleClick = () => {
+
+
         if (addToCartRef.current) return;
         addToCartRef.current = true;
         setIsClicked(true);
@@ -54,7 +58,7 @@ const Product: React.FC<ProductProps> = ({
         <div className="relative flex flex-col cardBoxShadow rounded-md ">
             <div className="relative">
                 {!isLoaded && (
-                    <div className="w-full h-[270px] rounded-md skeleton absolute"></div>
+                    <div className="w-full h-[250px] rounded-md skeleton absolute"></div>
                 )}
 
                 <img
@@ -79,7 +83,7 @@ const Product: React.FC<ProductProps> = ({
             <div className="my-4 flex max-md:flex-col max-md:gap-4 justify-between gap-4 text-white font-medium px-3">
                 <button
                     className="bg-primaryColor w-full py-3 rounded-md relative overflow-hidden "
-                    onClick={handleClick}
+                    onClick={handleATC}
                 >
                     <FaShoppingCart
                         size={29}

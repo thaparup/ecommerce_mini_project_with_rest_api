@@ -29,7 +29,7 @@ const ConfirmMethodOfPayment = () => {
 
             toast.warning("Please choose the method of payment", {
                 style: { color: "red", fontSize: '1rem' },
-                duration: 3000,
+                duration: 1500,
             });
             return;
 
@@ -43,44 +43,44 @@ const ConfirmMethodOfPayment = () => {
 
     }
     return (
-        <div className=' mt-14 rounded-md p-6 bg-white w-[70%] mx-auto '>
+        <div className=' mt-14 rounded-md p-6 bg-white w-[70%] mx-auto lg:w-[80%] md:w-[85%] sm:w-[90%] max-[639px]:w-[90%]'>
             <CheckoutModal modal={modal} setModal={setModal} methodOfPayment={checkout} />
             <Toaster position="top-right" theme="light" duration={1000} />
 
             <h1 className='text-xl font-medium underline'>Your order</h1>
-            <div className=' my-2 '>
+            <div className=' my-8 '>
                 {cart.cart.map((item) => (
                     <div key={item.id}>
 
                         <div className="list-none grid grid-cols-12 text-[15px] italic font-light pb-2">
                             <li className='col-span-8'>{item.title}</li>
                             <li className='col-span-2'>Qty. {item.quantity}</li>
-                            <li className='col-span-2'>Rs. {item.price.toFixed()}</li>
+                            <li className='col-span-2'>Rs. {(item.price * 135).toFixed()}</li>
                         </div>
                         <hr className='pt-2' />
                     </div>
                 ))}
             </div>
             <div className="grid grid-cols-12 gap-2  text-[13px] italic text-lg font-medium">
-                <h4 className="col-span-10  text-primaryColor">Grand Total</h4>
-                <h4 className="col-span-2 text-red-400">
+                <h4 className="col-span-10 max-sm:col-span-9 text-primaryColor">Grand Total</h4>
+                <h4 className="col-span-2 text-red-400 max-sm:col-span-3">
                     Rs. {cart.totalQuantity == 0 ? 0 : (sum * 135 + 100).toFixed()}
                 </h4>
             </div>
             <hr className='pt-2' />
 
-            <div className='grid grid-cols-12 my-2 mt-6'>
-                <h1 className='text-xl font-medium col-span-8 underline'>Your Delivery Address</h1>
+            <div className='grid grid-cols-12 my-2 mt-6 max-md:flex max-md:flex-col max-md:gap-3 '>
+                <h1 className='text-xl font-medium col-span-8 underline max-md:text-center'>Your Delivery Address</h1>
                 <h4 className='italic col-span-4'>{address}</h4>
             </div>
             <hr className='pt-2' />
-            <h1 className='text-xl font-medium mt-8 underline'>Confirm your shopping</h1>
-            <div className='grid grid-cols-12 mt-6'>
+            <h1 className='text-xl font-medium mt-8 underline max-sm:text-center'>Confirm your shopping</h1>
+            <div className='grid grid-cols-12 mt-6 max-sm:flex max-sm:flex-col max-sm:gap-7'>
 
 
 
 
-                <div className='col-span-8'>
+                <div className='col-span-8 max-sm:self-center'>
                     <div className='flex gap-8'>
                         <div className='flex gap-1'>
                             <input type="radio" name='checkout' value='cod' onChange={(e) => setCheckout(e.target.value)} />
@@ -93,14 +93,17 @@ const ConfirmMethodOfPayment = () => {
                     </div>
                 </div>
 
-                <button
-                    className=" col-span-2 bg-gradient-to-r from-primaryColor to-purple-500 px-10 hover:bg-gradient-to-l  py-2 text-white font-medium rounded-md hover:shadow-md"
+                <div className='col-span-4 flex justify-center'>
 
-                    type="button"
-                    onClick={() => handleClick()}
-                >
-                    Checkout
-                </button>
+                    <button
+                        className=" bg-gradient-to-r from-primaryColor to-purple-500 px-12 hover:bg-gradient-to-l  py-2 text-white font-medium rounded-md hover:shadow-md"
+
+                        type="button"
+                        onClick={() => handleClick()}
+                    >
+                        Checkout
+                    </button>
+                </div>
 
             </div>
 

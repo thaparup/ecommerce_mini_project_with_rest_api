@@ -51,6 +51,7 @@ const Menu: React.FC<MenuProps> = ({
                 className={`shadow-md rounded-md transition-all duration-500 bg-[#dddddd] ease-out overflow-hidden z-50 absolute ${styleMenuContainer}`}
                 style={{ height: menu ? menuHeight : "0px" }}
                 ref={menuRef}
+
                 onClick={(e) => e.stopPropagation()}
             >
                 {children}

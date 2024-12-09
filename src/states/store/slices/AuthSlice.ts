@@ -1,23 +1,31 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { JsonWebKey } from "crypto";
 
 type Auth = {
-  token: string | "";
+  auth: {
+    token: string;
+    email: string;
+    name: string;
+  };
 };
 
 const initialState: Auth = {
-  token: localStorage.getItem("token")!,
+  auth: JSON.parse(localStorage.getItem("auth") || "{}"),
 };
 
 export const AuthSlicer = createSlice({
   name: "auth",
   initialState: initialState,
   reducers: {
-    login: (state, actions: PayloadAction<string>) => {
-      localStorage.setItem("token", actions.payload);
+    login: (
+      state,
+      action: PayloadAction<{ token: string; email: string; name: string }>
+    ) => {
+      localStorage.setItem("auth", JSON.stringify(action.payload));
+      state.auth = JSON.parse(localStorage.getItem("auth")!);
     },
     logout: (state) => {
-      state.token = "";
+      localStorage.removeItem("auth");
+      state.auth = JSON.parse(localStorage.getItem("auth") || "{}");
     },
   },
 });

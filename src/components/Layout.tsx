@@ -11,13 +11,14 @@ import { AddressContextProvider } from "../states/context/AddressContext";
 import { CheckoutContextProvider } from "../states/context/CheckoutContext";
 import PrivateRoute from "./PrivateRoute";
 import Signin from "../pages/Singin";
+import CategoryBySlug from "../pages/CategoryBySlug";
 
 const Layout = () => {
-  const location = useLocation();
+
 
   return (
     <>
-      {/* {location.pathname !== "/auth/register" && <Navbar />} */}
+
       <Navbar />
       <CheckoutContextProvider>
         <AddressContextProvider>
@@ -44,6 +45,7 @@ const Layout = () => {
         <Route path="/auth/register" element={<Register />} />
         <Route path="/auth/signin" element={<Signin />} />
         <Route path="/categories" element={<Categories />} />
+        <Route path="/categories/:slug" element={<CategoryBySlug />} />
       </Routes>
     </>
   );

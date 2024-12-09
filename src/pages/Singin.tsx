@@ -1,20 +1,11 @@
-"use client";
 
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import React, {
-    Dispatch,
-    FormEvent,
-    SetStateAction,
-    useCallback,
-    useEffect,
-    useState,
-} from "react";
-import { IoMdClose } from "react-icons/io";
-import { LiaTimesSolid } from "react-icons/lia";
+
+import { fetchSignInMethodsForEmail, getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import React, { useState, FormEvent } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useNavigate } from "react-router-dom";
 import { toast, Toaster } from "sonner";
-import { login, logout } from "../states/store/slices/AuthSlice";
+import { login } from "../states/store/slices/AuthSlice";
 import { RootState } from "../states/store/store";
 
 const Signin: React.FC = () => {
@@ -23,21 +14,21 @@ const Signin: React.FC = () => {
     const [password, setPassword] = useState<string>("");
     const [emailError, setEmailError] = useState<string>("");
     const [passwordError, setPasswordError] = useState<string>("");
-    const navigate = useNavigate()
-    const dispatch = useDispatch()
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
-    const token = useSelector((state: RootState) => { state.auth.token })
-    // if (token) {
-    console.log(token)
-    //     return <Navigate to="/" />;
-    // }
+    const authToken = useSelector((state: RootState) => state.auth);
+    if (JSON.stringify(authToken.auth) !== `{}`) {
+        return <Navigate to="/" />;
+    }
 
-    document.body.style.overflowY = 'hidden'
-    document.body.style.overflowX = 'hidden'
+    document.body.style.overflowY = "hidden";
+    document.body.style.overflowX = "hidden";
+
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
-        setEmailError('')
-        setPasswordError('')
+        setEmailError("");
+        setPasswordError("");
         if (!email) {
             setEmailError("Email is missing");
             return;
@@ -48,65 +39,79 @@ const Signin: React.FC = () => {
         }
         try {
 
+            const signInMethods = await fetchSignInMethodsForEmail(auth, email);
+            if (signInMethods.length > 0) {
+
+                toast.warning("Email is already in use. Please try another one.", {
+                    style: { color: "red" },
+                    duration: 2000,
+                    position: "top-right",
+                });
+                return;
+            }
+
+
+
             const userCredential = await signInWithEmailAndPassword(
                 auth,
                 email,
+
                 password
             );
             const user = userCredential.user;
 
-
             const token = await user.getIdToken();
+            console.log(token)
+            dispatch(login({ token, email: user.email || "", name: user.displayName || '' }));
+            // toast.success("Signed in successfully!", {
+            //     duration: 2000,
+            //     position: "top-right",
+            // });
 
-            dispatch(login(token))
-
-            localStorage.setItem('token', token)
-            navigate('/')
-
+            // setTimeout(() => navigate("/"), 5000)
         } catch (error) {
             console.error("Error signing in user:", error);
             switch (error.code) {
-
-                case 'auth/invalid-credential':
+                case "auth/invalid-credential":
                     toast.warning(`Password or Email doesn't match`, {
                         style: { color: "red" },
                         duration: 2000,
-                        position: 'top-right'
-                    })
+                        position: "top-right",
+                    });
                     break;
                 case "auth/user-not-found":
                     toast.warning("No user found with this email", {
                         style: { color: "red" },
                         duration: 2000,
-                        position: 'top-right'
+                        position: "top-right",
                     });
                     break;
                 case "auth/wrong-password":
                     toast.warning("Incorrect password", {
                         style: { color: "red" },
                         duration: 2000,
-                        position: 'top-right'
+                        position: "top-right",
                     });
                     break;
                 case "auth/invalid-email":
                     toast.warning("Invalid email format", {
                         style: { color: "red" },
                         duration: 2000,
-                        position: 'top-right'
+                        position: "top-right",
                     });
                     break;
                 case "auth/too-many-requests":
                     toast.warning("Too many failed attempts. Please try again later.", {
                         style: { color: "red" },
                         duration: 2000,
-                        position: 'top-right'
+                        position: "top-right",
                     });
                     break;
                 default:
                     toast.warning("Failed to sign in. Please try again.", {
                         style: { color: "red" },
                         duration: 2000,
-                        position: 'top-right'
+                        position: "top-right",
                     });
                     break;
             }
@@ -114,7 +119,7 @@ const Signin: React.FC = () => {
     };
 
     return (
-        <div className={` h-screen flex justify-center items-center`}>
+        <div className={`h-screen flex justify-center items-center`}>
             <Toaster />
             <div className={`bg-white px-14 py-8 rounded-md shadow-md mb-10`}>
                 <form action="" onSubmit={handleSubmit}>
@@ -135,7 +140,7 @@ const Signin: React.FC = () => {
                     </label>
                     <input
                         type="password"
-                        className="bg-gray-100 w-96 p-2 rounded-md block mt-2  focus:outline-primaryColor shadow-sm shadow-inputBoxShadowColor"
+                        className="bg-gray-100 w-96 p-2 rounded-md block mt-2 focus:outline-primaryColor shadow-sm shadow-inputBoxShadowColor"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                     />
@@ -146,7 +151,7 @@ const Signin: React.FC = () => {
                     <div className="w-full flex justify-center mt-5">
                         <button
                             type="submit"
-                            className=" bg-gradient-to-r from-primaryColor to-purple-400 py-2 px-8 text-white rounded-md font-medium"
+                            className="bg-gradient-to-r from-primaryColor to-purple-400 py-2 px-8 text-white rounded-md font-medium"
                         >
                             Sign in
                         </button>

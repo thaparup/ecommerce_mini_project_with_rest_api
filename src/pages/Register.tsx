@@ -2,16 +2,18 @@ import React, { useContext, useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import { db } from "./../../firebase-config";
 import { collection, addDoc, query, where, getDocs } from "firebase/firestore";
-import { createUserWithEmailAndPassword, getAuth } from "firebase/auth"
+import { createUserWithEmailAndPassword, getAuth, updateProfile } from "firebase/auth"
 import { toast } from "sonner";
 import { Toaster } from "../components/ui/sonner";
 
 const Register = () => {
     const [email, setEmail] = useState<string>("");
+    const [name, setName] = useState<string>('')
     const [password, setPassword] = useState<string>("");
     const [emailError, setEmailError] = useState<string>("");
     const [passwordError, setPasswordError] = useState<string>("");
     const [emailValidationError, setEmailValidationError] = useState<string>("");
+    const [nameError, setNameError] = useState<string>('')
 
     const emailRegex = /^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/;
     const userRef = collection(db, "users");
@@ -27,11 +29,6 @@ const Register = () => {
 
     }, [num])
 
-    const handleAddNum = (num: number) => {
-
-        setNum((previouslyStoredNumber) => [...previouslyStoredNumber, num])
-
-    }
     document.body.style.overflowY = 'hidden'
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -40,6 +37,11 @@ const Register = () => {
         setEmailError("");
         setPasswordError("");
         setEmailValidationError("");
+        setNameError('')
+
+        if (!name) {
+            setNameError('Name is required*')
+        }
 
         if (!email) {
             setEmailError("Email is required*");
@@ -59,34 +61,42 @@ const Register = () => {
             return;
         }
 
-        // const userExists = await checkIfUserExists(email);
-        // if (userExists) {
-        //     toast("User already exists");
-        //     return;
-        // }
 
-        // try {
-        //     await addDoc(userRef, { email: email, password: password });
-        //     toast("User registered successfully");
-
-        //     setEmail("");
-        //     setPassword("");
-        // } catch (error) {
-        //     console.error("Error adding document:", error);
-        //     toast("Failed to register user");
-        // }
         try {
-            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-            console.log("User signed up:", userCredential.user);
+            const userCredential = await createUserWithEmailAndPassword(auth, email, password,);
+            const user = userCredential.user;
+            await updateProfile(user, {
+                displayName: name,
+            });
 
-            // Clear the input fields
             setEmail("");
             setPassword("");
+            setName('')
 
             toast("User registered successfully");
         } catch (error) {
             console.error("Error signing up user:", error);
-            toast("Failed to register user");
+
+            switch (error.code) {
+
+                case 'auth/email-already-in-use':
+                    toast.warning("Email is already in use. Please try another one.", {
+                        style: { color: "red" },
+                        duration: 2000,
+                        position: "top-right",
+                    });
+                    break;
+                case 'auth/weak-password':
+                    toast.warning("Password too weak ", {
+                        style: { color: "red" },
+                        duration: 2000,
+                        position: "top-right",
+                    });
+                    break;
+                default:
+                    toast("Failed to sign in. Please try again.");
+                    break;
+            }
         }
 
     };
@@ -101,6 +111,17 @@ const Register = () => {
                 <div className=" my-auto w-fit mx-auto bg-white p-8 rounded-md">
                     <form action="" onSubmit={handleSubmit}>
                         <label htmlFor="" className="block font-medium">
+                            Name
+                        </label>
+                        <input
+                            className="bg-gray-100 w-96 p-2 rounded-md block mt-2 focus:outline-primaryColor shadow-sm shadow-inputBoxShadowColor"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                        />
+                        {nameError && (
+                            <div className="text-red-400 font-medium">{nameError}</div>
+                        )}
+                        <label htmlFor="" className="block font-medium pt-4">
                             Email
                         </label>
                         <input
