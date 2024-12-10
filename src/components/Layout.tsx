@@ -12,6 +12,7 @@ import { CheckoutContextProvider } from "../states/context/CheckoutContext";
 import PrivateRoute from "./PrivateRoute";
 import Signin from "../pages/Singin";
 import CategoryBySlug from "../pages/CategoryBySlug";
+import SingleProduct from "../pages/SingleProduct";
 
 const Layout = () => {
 
@@ -46,6 +47,7 @@ const Layout = () => {
         <Route path="/auth/signin" element={<Signin />} />
         <Route path="/categories" element={<Categories />} />
         <Route path="/categories/:slug" element={<CategoryBySlug />} />
+        <Route path='/products/:id' element={<SingleProduct />} />
       </Routes>
     </>
   );

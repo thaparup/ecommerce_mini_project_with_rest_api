@@ -22,6 +22,7 @@ const Product: React.FC<ProductProps> = ({
     const [isClicked, setIsClicked] = useState(false);
     const [atc, setAtc] = useState<string>("Add to cart");
     const addToCartRef = useRef<boolean>(false);
+    const navigate = useNavigate()
 
     const dispatch = useDispatch();
     const handleATC = () => {
@@ -101,7 +102,7 @@ const Product: React.FC<ProductProps> = ({
                             }`}
                     />
                 </button>
-                <button className="bg-purple-400 w-full py-3 rounded-md">
+                <button className="bg-purple-400 w-full py-3 rounded-md" onClick={() => navigate(`/products/${id}`)}>
                     Details
                 </button>
             </div>

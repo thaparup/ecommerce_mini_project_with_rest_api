@@ -38,7 +38,11 @@ const CartItem: FC<CartItemProps> = ({
     };
 
     const handleDecrement = (id: number) => {
-        setNoq((prev) => prev - 1)
+        // setNoq((prev) => prev - 1)
+        setNoq((prev) => prev === 0 ? 0 : prev - 1);
+        if (noq === 0) {
+            return
+        }
         dispatch(removeFromTheCart({
             brand: brand,
             price: price,
