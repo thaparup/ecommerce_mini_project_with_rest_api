@@ -1,11 +1,12 @@
 import React, { FC, useEffect, useRef, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
 import ProductCard from "./ProductCart";
 import useFetch from "../hooks/useFetch";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addToCart, removeFromTheCart } from "../states/store/slices/cartSlice";
 import { toast, Toaster } from "sonner";
 import { SingleProductType } from "../types/typeSingleProduct";
+import { RootState } from "../states/store/store";
 
 interface SingleProductProps { }
 const SingleProduct: FC<SingleProductProps> = ({ }) => {
@@ -15,6 +16,8 @@ const SingleProduct: FC<SingleProductProps> = ({ }) => {
     const [imageIndex, setImageIndex] = useState<number>(0);
     const [hasFirstImageLoaded, setHasFirstImageLoaded] = useState(false);
     const [hasArrayOfImageLoaded, setHasArrayOfImageLoaded] = useState(false);
+    const authToken = useSelector((state: RootState) => state.auth)
+    const navigate = useNavigate()
     const { data } = useFetch<SingleProductType>(
         `https://dummyjson.com/products/${id}`
     );
@@ -197,21 +200,10 @@ const SingleProduct: FC<SingleProductProps> = ({ }) => {
                             </button>
                         </div>
                     </div>
-                    {/* <div className="flex ">
-                        <button
-                            className="bg-slate-200 px-2 rounded-md "
-                            onClick={() => handleDecrement(data?.id)}
-                        >
-                            -
-                        </button>
-                        <p className="px-3 ">{noq}</p>
-                        <button
-                            className="bg-gray-200 px-2 rounded-md"
-                            onClick={() => handleIncrement(data?.id)}
-                        >
-                            +
-                        </button>
-                    </div> */}
+                    <div className="mt-2">
+
+                        <button className="bg-primaryColor text-white px-8 py-2 rounded-md font-medium" onClick={() => { JSON.stringify(authToken.auth) === "{}" ? navigate('/auth/signin') : navigate('/cart') }}>Checkout</button>
+                    </div>
                 </div>
                 <div className="col-span-4 flex flex-col gap-3 max-lg:mx-auto">
                     <h1 className="">

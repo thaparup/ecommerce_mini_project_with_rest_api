@@ -8,13 +8,13 @@ import { useAddressContext } from "../states/context/AddressContext"
 
 const Cart: FC = () => {
     const cart = useSelector((state: RootState) => state.cart);
-    const { address } = useAddressContext()
+
 
 
     return (
         <div>
 
-            <section className={`flex my-12 w-[100%]  justify-center `}>
+            {/* <section className={`flex my-12 w-[100%]  justify-center `}>
                 <Toaster position="top-right" theme="light" duration={1000} />
 
                 <div className=" w-[80%] max-xl:w-[85%] max-lg:w-[88%] flex gap-6 max-md:flex-col">
@@ -24,7 +24,7 @@ const Cart: FC = () => {
 
 
 
-            </section>
+            </section> */}
 
 
         </div>

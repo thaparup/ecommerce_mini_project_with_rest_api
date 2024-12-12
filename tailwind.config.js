@@ -3,6 +3,23 @@ export default {
   darkMode: ["class"],
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
+    screens: {
+      // xsm: { min: "1px", max: "640px" },
+      // sm: { min: "640px", max: "768px" },
+      // md: { min: "768px", max: "1024px" },
+      // lg: { min: "1024px", max: "1280px" },
+      // xl: { min: "1536px", max: "1536px" },
+      // xxl: { min: "1537px" },
+      xs: "1px",
+      sm: "640px",
+      md: "768px",
+      lg: "1024px",
+      xl: "1280px",
+      "2xl": "1536px",
+    },
+
+    // screens: {},
+
     extend: {
       colors: {
         primaryColor: "#06b6d4",

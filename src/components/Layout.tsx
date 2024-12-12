@@ -13,6 +13,7 @@ import PrivateRoute from "./PrivateRoute";
 import Signin from "../pages/Singin";
 import CategoryBySlug from "../pages/CategoryBySlug";
 import SingleProduct from "../pages/SingleProduct";
+import Footer from "./Footer";
 
 const Layout = () => {
 
@@ -49,6 +50,7 @@ const Layout = () => {
         <Route path="/categories/:slug" element={<CategoryBySlug />} />
         <Route path='/products/:id' element={<SingleProduct />} />
       </Routes>
+      <Footer />
     </>
   );
 };
