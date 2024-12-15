@@ -53,8 +53,8 @@ const CartItem: FC<CartItemProps> = ({
     }
 
     return (
-        <div className="grid grid-cols-6 gap-2 my-3 bg-[#f7f7f7] rounded-md shadow-md items-center ">
-            <div className="flex col-start-1 col-end-5 items-center gap-4">
+        <div className="grid grid-cols-6 gap-2 my-3 bg-[#f7f7f7] rounded-md shadow-md items-center max-[400px]:flex max-[400px]:flex-col">
+            <div className="flex col-start-1 col-end-5 items-center gap-4 max-[400px]:flex-col">
                 {!isImageLoading && (<div className=" ml-2 skeleton rounded-md  w-[100px] h-[100px] "> </div>)}
                 <img src={thumbnail} alt="" className=" h-[120px] " onLoad={() => { setIsImageLoading(true) }} />
                 <div className="max-sm:text-sm">
@@ -62,12 +62,12 @@ const CartItem: FC<CartItemProps> = ({
                     <h6 className="text-sm font-light text-gray-4300">{brand}</h6>
                 </div>
             </div>
-            <div className="col-start-5 col-end-8  flex justify-around max-lg:flex-col  max-lg:items-center max-lg:gap-2">
+            <div className="col-start-5 col-end-8  flex justify-around max-lg:flex-col  max-lg:items-center max-lg:gap-2 ">
                 <h3 className="text-lg text-primaryColor font-semibold col-start-5 col-end-6  ">
                     {" "}
-                    Rs. {(price * 135).toFixed()}
+                    Rs. {Math.floor(price * 135)}
                 </h3>
-                <div className="flex ">
+                <div className="flex max-[400px]:my-2 pb-2">
                     <button
                         className="bg-slate-200 px-2 rounded-md "
                         onClick={() => handleDecrement(id)}

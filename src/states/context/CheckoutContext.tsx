@@ -32,5 +32,5 @@ export const useCheckoutContext = () => {
         throw new Error("useCheckoutContext must be used within a CheckoutContextProvider");
     }
 
-    return context; // Return the context value here
+    return context;
 };

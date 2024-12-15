@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import emailjs from "emailjs-com";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "../states/store/store";
 import { useAddressContext } from "../states/context/AddressContext";
@@ -14,10 +14,22 @@ import { useCheckoutContext } from "../states/context/CheckoutContext";
 
 const PaymentSuccess = () => {
     const fetchRef = useRef<boolean>(false);
-    const storage = JSON.parse(localStorage.getItem("checkout")!);
-    if (!storage.isCartConfirmed || !storage.isPaymentConfirmed)
-        return <Navigate to="/cart" />;
 
+
+    const navigate = useNavigate()
+    const storage = JSON.parse(localStorage.getItem("checkout")!);
+
+    useEffect(() => {
+
+        if (!storage || !storage.isCartConfirmed || !storage.isPaymentConfirmed) {
+            navigate('/cart')
+
+        }
+
+    }, [navigate])
+
+
+    const auth = JSON.parse(localStorage.getItem('auth')!)
     const cart = useSelector((state: RootState) => state.cart);
     const { address } = useAddressContext()
     const { setCheckoutState } = useCheckoutContext()
@@ -29,7 +41,7 @@ const PaymentSuccess = () => {
         <td>${index + 1}</td>
         <td>${item.title}</td>
         <td>${item.quantity || 1}</td>
-        <td>Rs. ${item.price * 135}</td>
+        <td>Rs. ${Math.floor(item.price * 135)}</td>
         </tr>
         `;
         })
@@ -40,30 +52,34 @@ const PaymentSuccess = () => {
     const tableHTML = HtmlEmail({ rows, address, sum })
     const sendEmail = async () => {
         const templateParams = {
-            to_email: "thaparup3965@gmail.com",
+            to_email: auth.email,
             from_email: "emart@bussiness.com",
             from_name: "Emart Sales Department",
-            to_name: "Peter Parker",
+            to_name: auth.name,
             subject: "Your Order Confirmation",
             message: tableHTML,
         };
 
         try {
-            const response = await emailjs.send(
-                "service_uzsk1re",
-                "contact_form",
-                templateParams,
-                "YQ72x7L7RItfWMoq5"
-            );
+            // const response = await emailjs.send(
+            //     "service_uzsk1re",
+            //     "contact_form",
+            //     templateParams,
+            //     "YQ72x7L7RItfWMoq5"
+            // );
+
+            // if (response.status == 200) {
+
+            //     localStorage.removeItem('cart')
+            //     localStorage.removeItem('address')
+            //     localStorage.removeItem('totalQuantity')
+            //     localStorage.removeItem('checkout')
+            //     setTimeout(() => { navigate('/') }, 5000)
+            // }
         } catch (error) {
             console.error("Failed to send email:", error);
         }
-        finally {
-            setTimeout(() => {
-                setCheckoutState({ isCartConfirmed: false, isPaymentConfirmed: false })
 
-            }, 2500)
-        }
     };
     useEffect(() => {
         if (!fetchRef.current) {
@@ -81,7 +97,7 @@ const PaymentSuccess = () => {
 
 
     return (
-        <div>
+        <div className="pb-12">
             <Toaster />
             <h1 className="text-center font-medium p-2 mt-12">Invoice from Emart</h1>
 

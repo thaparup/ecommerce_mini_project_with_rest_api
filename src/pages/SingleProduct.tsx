@@ -24,11 +24,11 @@ const SingleProduct: FC<SingleProductProps> = ({ }) => {
 
     const dispatch = useDispatch();
     const handleIncrement = (
-        id: number,
-        title: string,
-        thumbnail: string,
-        brand: string,
-        price: number
+        brand: brand,
+        price: price,
+        title: title,
+        thumbnail: thumbnail,
+        id: id,
     ) => {
         setNoq((prev) => prev + 1);
 
@@ -45,11 +45,11 @@ const SingleProduct: FC<SingleProductProps> = ({ }) => {
     };
 
     const handleDecrement = (
-        id: number,
-        title: string,
-        thumbnail: string,
         brand: string,
-        price: number
+        id: number,
+        price: number,
+        thumbnail: string,
+        title: string,
     ) => {
         setNoq((prev) => (prev === 0 ? 0 : prev - 1));
         if (noq === 0) {
@@ -173,11 +173,11 @@ const SingleProduct: FC<SingleProductProps> = ({ }) => {
                                 className="px-2 py-1 border-r text-gray-700"
                                 onClick={() =>
                                     handleDecrement(
-                                        data?.id,
-                                        data?.price,
                                         data?.brand,
+                                        data?.price,
+                                        data?.title,
                                         data?.thumbnail,
-                                        data?.title
+                                        data?.id
                                     )
                                 }
                             >
@@ -188,11 +188,11 @@ const SingleProduct: FC<SingleProductProps> = ({ }) => {
                                 className="px-2 py-1 border-l text-gray-700"
                                 onClick={() =>
                                     handleIncrement(
-                                        data?.id,
-                                        data?.price,
                                         data?.brand,
+                                        data?.price,
+                                        data?.title,
                                         data?.thumbnail,
-                                        data?.title
+                                        data?.id
                                     )
                                 }
                             >

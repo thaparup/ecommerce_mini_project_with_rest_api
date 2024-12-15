@@ -2,13 +2,14 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import { Outlet, Navigate } from 'react-router-dom'
 import { RootState } from '../states/store/store'
+import { useIsTokenExpired } from '../hooks/useIsTokenExpired'
 
 const PrivateRoute = () => {
 
-    const authToken = useSelector((state: RootState) => state.auth)
 
+    const isTokenExpired = useIsTokenExpired()
     return (
-        JSON.stringify(authToken.auth) === "{}" ? <Navigate to='/auth/signin' /> : <Outlet />
+        isTokenExpired ? <Navigate to='/auth/signin' /> : <Outlet />
     )
 }
 

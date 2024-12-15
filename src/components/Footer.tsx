@@ -71,7 +71,7 @@ export default function Footer() {
             </section>
             <div className="text-center -translate-y-4 border-t border-white/20 text-sm">
                 <p className="text-white font-medium mt-1">
-                    &copy; {new Date().getFullYear()} Emart. All Rights Reserved.
+                    &copy; {new Date().getFullYear()} eMart. All Rights Reserved.
                 </p>
             </div>
         </footer>

@@ -15,7 +15,7 @@ export const HtmlEmail = ({
         <td><strong>Total</strong></td>
         <td></td>
         <td><strong></strong></td>
-        <td><strong>Rs. ${sum * 135}</strong></td>
+        <td><strong>Rs. ${Math.floor(sum * 135) + 100}</strong></td>
       </tr>
     `;
 

@@ -9,6 +9,7 @@ import SigninModal from "../SigninModal";
 import Signin from "../../pages/Singin";
 import Menu from "../Menu";
 import { logout } from "../../states/store/slices/AuthSlice";
+import { useIsTokenExpired } from "../../hooks/useIsTokenExpired";
 
 const Navbar: React.FC = () => {
     const [menuBurger, setMenuBurger] = useState(false);
@@ -18,6 +19,8 @@ const Navbar: React.FC = () => {
     const auth = useSelector((state: RootState) => state.auth);
     const dispatch = useDispatch()
     const navigate = useNavigate();
+    const tokenExpired = useIsTokenExpired()
+    console.log('token expired', tokenExpired)
     useEffect(() => {
         setActiveLink(location.pathname);
     }, [location.pathname]);
@@ -26,7 +29,6 @@ const Navbar: React.FC = () => {
     return (
         <>
             <nav className="flex justify-between mt-6 mx-12 max-md:hidden ">
-                {/* {modal && <SigninModal modal={modal} setModal={setModal} />} */}
                 <h3 className="text-2xl font-bold leading-0 text-purple-500 ">
                     <span className="text-primaryColor">e</span>Mart
                 </h3>
@@ -52,7 +54,7 @@ const Navbar: React.FC = () => {
                     </li>
                 </ul>
                 <ul className="flex gap-7 self-end font-normal text-md ">
-                    {JSON.stringify(auth.auth) !== `{}` && (
+                    {!tokenExpired && (
 
                         <Menu
                             buttonLabelOrIcon={
@@ -91,7 +93,7 @@ const Navbar: React.FC = () => {
                             <Link to="/cart">Cart</Link>
                         </li>
                     </li>
-                    {JSON.stringify(auth.auth) === '{}' ? (
+                    {tokenExpired ? (
                         <li
                             className={`flex gap-2 after:content-[''] after:rounded-md after:bg-primaryColor after:h-1 after:w-0 after:block after:transition-all after:duration-300 after:ease-in-out ${activeLink === "/cart" && "after:w-2/3 after:bg-primaryColor"
                                 } `}

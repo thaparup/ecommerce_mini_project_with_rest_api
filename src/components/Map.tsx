@@ -14,45 +14,35 @@ type MapProps = {
     setAddress: Dispatch<SetStateAction<string>>;
 };
 
-
-
-const Map = ({ showModal, setShowModal, }: MapProps) => {
-
-
+const Map = ({ showModal, setShowModal }: MapProps) => {
     const [position, setPosition] = useState({ lat: 27.7103, lng: 85.3222 });
     const modalRef = useRef<HTMLDivElement>(null);
-    const { address, setAddress } = useAddressContext()
-
+    const { address, setAddress } = useAddressContext();
 
     const eventHandlers: LeafletEventHandlerFnMap = {
-
         dragend: (event: LeafletEvent) => {
-
-            callApi(event.target._latlng.lat, event.target._latlng.lng)
-        }
-
-    }
-
-
-
-
-
+            callApi(event.target._latlng.lat, event.target._latlng.lng);
+        },
+    };
 
     const callApi = async (lat: number, lng: number) => {
         try {
-
-            const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`);
-            const responseData = await response.json()
+            const response = await fetch(
+                `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`
+            );
+            const responseData = await response.json();
             setAddress((prev) => {
-                localStorage.setItem('address', JSON.stringify(responseData.display_name))!
-                prev = JSON.parse(localStorage.getItem('address')!)
-                return responseData.display_name
-            })
-            console.log(address)
+                localStorage.setItem(
+                    "address",
+                    JSON.stringify(responseData.display_name)
+                )!;
+                prev = JSON.parse(localStorage.getItem("address")!);
+                return responseData.display_name;
+            });
+            console.log(address);
             if (!response.ok) {
                 throw new Error(`Error: ${response.status}`);
             }
-
         } catch (err) {
             if (err instanceof Error) {
             }
@@ -60,13 +50,7 @@ const Map = ({ showModal, setShowModal, }: MapProps) => {
         }
     };
 
-    // useEffect(() => {
-    //     console.log(address)
-
-    // }, [setAddress])
-
     useEffect(() => {
-
         // const success = (result: GeolocationPosition) => {
         //     setPosition({ lat: result.coords.latitude, lng: result.coords.longitude });
         //     console.log(position)
@@ -80,17 +64,23 @@ const Map = ({ showModal, setShowModal, }: MapProps) => {
 
         if (showModal) {
             // document.body.style.background = "rgb(38 38 38 / 0.5)";
-            // document.body.style.overflowY = "hidden";
-
+            document.body.style.overflowY = "hidden";
         } else {
             // document.body.style.background = "#d6d3d1";
-            // document.body.style.overflowY = 'scroll'
+            document.body.style.overflowY = "scroll";
+
+            return () => {
+                document.body.style.overflowY = "scroll";
+            };
         }
     }, [showModal]);
 
     useEffect(() => {
         const mouseDownHandler = (event: MouseEvent) => {
-            if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
+            if (
+                modalRef.current &&
+                !modalRef.current.contains(event.target as Node)
+            ) {
                 setShowModal(false);
             }
         };
@@ -101,17 +91,17 @@ const Map = ({ showModal, setShowModal, }: MapProps) => {
         };
     }, [setShowModal]);
 
-
     return (
         <>
-
-            <div className="bg-white rounded-md w-[70%] h-[90%] p-16 relative flex" ref={modalRef}>
+            <div
+                className="bg-white rounded-md w-[70%] md:w-[80%] sm:w-[90%] xs:w-full h-[90%] py-16 lg:py-16 xl:px-16 md:px-8 sm:px-4 xs:px-2 relative flex"
+                ref={modalRef}
+            >
                 <MapContainer
                     center={position}
-                    zoom={27}
-                    scrollWheelZoom={false}
+                    zoom={12}
+                    scrollWheelZoom={true}
                     className="w-full h-full "
-
                 >
                     <TileLayer
                         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -129,7 +119,6 @@ const Map = ({ showModal, setShowModal, }: MapProps) => {
                     <LiaTimesSolid size={18} />
                 </button>
             </div>
-
         </>
     );
 };

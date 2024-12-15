@@ -13,9 +13,11 @@ const Homepage = () => {
     const bottomRef = useRef(null);
     const fetchRef = useRef(false);
     const { selected } = useFilterContext();
+    console.log(selected)
     const prevSelectedRef = useRef(selected);
     const counterRef = useRef<number>(0);
 
+    document.body.style.overflowY = 'scroll'
 
     useEffect(() => {
         if (selected && selected !== prevSelectedRef.current) {
@@ -61,7 +63,7 @@ const Homepage = () => {
         };
         setTimeout(() => {
             fetchProducts();
-        }, 1000);
+        }, 500);
     }, [counterRef.current, selected]);
 
     useEffect(() => {
@@ -113,7 +115,7 @@ const Homepage = () => {
                 ? null
                 : !loadmoreProducts && (
                     <div className="py-9 " ref={bottomRef}>
-                        <div className="mt-12 h-[5.2rem] w-[5.2rem] relative mx-auto animate-bounce">
+                        <div className="mt-12 h-[8rem] w-[8rem] relative mx-auto animate-bounce">
                             <div className="h-full w-full grid place-items-center rounded-full before:content-[''] before:absolute before:bg-primaryColor before:h-full before:w-full before:rounded-full before:animate-loadMore before:z-10 before:opacity-30 after:content-[''] after:absolute after:h-full after:w-full after:bg-zinc-200 after:z-20 after:rounded-full ">
                                 <FaArrowDown
                                     size={20}

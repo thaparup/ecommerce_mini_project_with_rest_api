@@ -12,21 +12,19 @@ import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import PaymentSuccess from "../pages/PaymentSuccess";
 import { useAddressContext } from "../states/context/AddressContext";
 import { useCheckoutContext } from "../states/context/CheckoutContext";
+import { useCartTotal } from "../hooks/useCartTotal";
 
 const ProceedToCheckout: FC = () => {
-
     const cart = useSelector((state: RootState) => state.cart);
     const dispatch = useDispatch();
     const [showModal, setShowModal] = useState<boolean>(false);
     // const [address, setAddress] = useState<string>()
-    const { address, setAddress } = useAddressContext()
-    const sum = cart.cart.reduce(
-        (acc, cv) => (acc += (cv.quantity || 1) * cv.price),
-        0
-    );
+    const { address, setAddress } = useAddressContext();
+    const sum = useCartTotal()
+    console.log('sum from cart', sum)
     useEffect(() => {
         const queryParams = new URLSearchParams(location.search);
-        const isSuccess = queryParams.get("success"); // Adjust based on your eSewa success indicator
+        const isSuccess = queryParams.get("success");
 
         if (isSuccess) {
             alert("this ran for once");
@@ -45,9 +43,6 @@ const ProceedToCheckout: FC = () => {
         dispatch(clearCart());
     }
 
-
-
-
     const submitHandler = (event: React.SyntheticEvent) => {
         event.preventDefault();
         if (!address) {
@@ -58,20 +53,15 @@ const ProceedToCheckout: FC = () => {
             return;
         }
 
-        // const paymentURL = `https://uat.esewa.com.np/epay/main?amt=${amtInNrs}&tAmt=${amtInNrs}&txAmt=0&scd=EPAYTEST&pid=${alphanum}&psc=0&su=https://developer.esewa.com.np/success${location.search}&fu=https://developer.esewa.com.np/failure&pdc=0&secret_key=8gBm/:&EnhH.1/q`;
-        if (!localStorage.getItem('checkout')) {
-            // If it doesn't exist, create it with a default value
-            localStorage.setItem('checkout', JSON.stringify({
+        localStorage.setItem(
+            "checkout",
+            JSON.stringify({
                 isCartConfirmed: true,
-                isPaymentConfirmed: false
-            }));
-        } else {
-            localStorage.setItem('checkout', JSON.stringify({
-                isCartConfirmed: true,
-                isPaymentConfirmed: false
-            }))
-        }
-        window.location.href = `http://localhost:5173/cart/confirm`
+                isPaymentConfirmed: false,
+            })
+        );
+
+        window.location.href = `http://localhost:5173/cart/confirm`;
     };
     return (
         <form
@@ -80,13 +70,16 @@ const ProceedToCheckout: FC = () => {
             onSubmit={submitHandler}
         >
             <div className="basis-[35%] pt-4 ">
-                {showModal ?
+                {showModal ? (
                     <div className="fixed inset-0 z-50 flex justify-center items-center transition-all duration-500 ease-in-out ">
-                        <Map showModal={showModal} setShowModal={setShowModal} address={address} setAddress={setAddress} />
-
-
+                        <Map
+                            showModal={showModal}
+                            setShowModal={setShowModal}
+                            address={address}
+                            setAddress={setAddress}
+                        />
                     </div>
-                    : null}
+                ) : null}
 
                 <div className="flex flex-col bg-white gap-4">
                     <button
@@ -112,13 +105,13 @@ const ProceedToCheckout: FC = () => {
                             return (
                                 <div key={cartItem.id}>
                                     <div
-                                        className="text-[13px] grid grid-cols-12 px-6 pt-2 gap-2 italic"
+                                        className="text-[13px] grid grid-cols-12 max-[400px]:flex max-[400px]:flex-col max-[400px]:items-center  px-6 pt-2 gap-2 italic"
                                         key={cartItem.id}
                                     >
                                         <p className="col-span-7">{cartItem.title}</p>
                                         <p className="col-span-1">{cartItem.quantity}</p>
                                         <p className="col-span-3">
-                                            Rs. {(cartItem.price * 135).toFixed()}
+                                            Rs. {Math.floor(cartItem.price * 135)}
                                         </p>
                                         <button
                                             type="button"
@@ -137,7 +130,7 @@ const ProceedToCheckout: FC = () => {
                                 </div>
                             );
                         })}
-                        <div className="grid grid-cols-12 gap-2 px-6 text-[13px] italic py-3 font-medium">
+                        <div className="grid grid-cols-12 gap-2 px-6 text-[13px] italic py-3 font-medium max-[400px]:flex max-[400px]:flex-col max-[400px]:items-center">
                             <p className="col-span-7 ">Total Cost & Quantity</p>
                             <p className="col-span-1">{cart.totalQuantity}</p>
                             <p className="col-span-4 ">Rs. {(sum * 135).toFixed()}</p>
@@ -153,7 +146,7 @@ const ProceedToCheckout: FC = () => {
                         <div className="grid grid-cols-12 gap-2 px-6 text-[13px] italic py-3  text-lg font-medium">
                             <p className="col-span-8  text-primaryColor">Grand Total</p>
                             <p className="col-span-4 text-red-400">
-                                Rs. {cart.totalQuantity == 0 ? 0 : (sum * 135 + 100).toFixed()}
+                                Rs. {cart.totalQuantity == 0 ? 0 : (Math.floor(sum * 135 + 100))}
                             </p>
                         </div>
                         <hr className="mx-2 " />
@@ -163,9 +156,8 @@ const ProceedToCheckout: FC = () => {
                         >
                             <button
                                 className="bg-gradient-to-r from-primaryColor to-purple-500 px-10 hover:bg-gradient-to-l  py-2 text-white font-medium rounded-md hover:shadow-md"
-                                disabled={cart.totalQuantity == 0}
+                                disabled={cart.totalQuantity === 0}
                                 type="submit"
-
                             >
                                 Proceed
                             </button>

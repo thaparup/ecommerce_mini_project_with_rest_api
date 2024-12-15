@@ -14,7 +14,7 @@ const NavMenuForMediumAndSmallerDevice: React.FC<NavMenuForMediumAndSmallerDevic
     const cart = useSelector((state: RootState) => state.cart)
 
     return (
-        <div className="relative mx-8">
+        <div className="relative mx-8 max-[200px]:mx-2">
             <nav className={` flex md:hidden justify-between list-none mt-6 ${menuBurger && ''}`}>
                 <li className="">
                     <h3 className="text-2xl font-bold leading-0 text-primaryColor ">

@@ -38,7 +38,8 @@ const SuccessTable = ({
                                 {item.quantity}
                             </td>
                             <td className="p-2 text-left  border-r-2 border-black">
-                                Rs. {item.price * 135}
+                                Rs. {Math.floor(item.price * 135)}
+
                             </td>
                         </tr>
                     ))}
@@ -50,7 +51,8 @@ const SuccessTable = ({
                         <td></td>
                         <td></td>
                         <td className="text-red-500 text-xl font-medium p-2">
-                            Rs. {sum * 135}
+                            Rs. {Math.floor(sum * 135) + 100}
+
                         </td>
                     </tr>
                 </tbody>
@@ -58,7 +60,7 @@ const SuccessTable = ({
 
             <div className="w-[700px] mx-auto m-2 mt-8">
                 <h1 className="text-xl font-medium">
-                    Your order will be delivered to following address:
+                    Your order will be delivered to the following address:
                 </h1>
                 <h3 className="italic">{address}</h3>
             </div>

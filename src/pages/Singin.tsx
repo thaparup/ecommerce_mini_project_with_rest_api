@@ -16,7 +16,6 @@ const Signin: React.FC = () => {
     const [passwordError, setPasswordError] = useState<string>("");
     const navigate = useNavigate();
     const dispatch = useDispatch();
-
     const authToken = useSelector((state: RootState) => state.auth);
     if (JSON.stringify(authToken.auth) !== `{}`) {
         return <Navigate to="/" />;
@@ -121,13 +120,13 @@ const Signin: React.FC = () => {
     return (
         <div className={`h-screen flex justify-center items-center`}>
             <Toaster />
-            <div className={`bg-white px-14 py-8 rounded-md shadow-md mb-10`}>
+            <div className={`bg-white px-14 py-8 rounded-md shadow-md mb-10  lg:min-w-[35%] md:min-w-[50%] sm:min-w-[70%] xs:min-w-[85%]`}>
                 <form action="" onSubmit={handleSubmit}>
                     <label htmlFor="" className="block font-medium">
                         Email
                     </label>
                     <input
-                        className="bg-gray-100 w-96 p-2 rounded-md block mt-2 focus:outline-primaryColor shadow-sm shadow-inputBoxShadowColor"
+                        className="bg-gray-100 w-full 6 p-2 rounded-md block mt-2 focus:outline-primaryColor shadow-sm shadow-inputBoxShadowColor"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                     />
@@ -140,7 +139,7 @@ const Signin: React.FC = () => {
                     </label>
                     <input
                         type="password"
-                        className="bg-gray-100 w-96 p-2 rounded-md block mt-2 focus:outline-primaryColor shadow-sm shadow-inputBoxShadowColor"
+                        className="bg-gray-100 w-full p-2 rounded-md block mt-2 focus:outline-primaryColor shadow-sm shadow-inputBoxShadowColor"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                     />

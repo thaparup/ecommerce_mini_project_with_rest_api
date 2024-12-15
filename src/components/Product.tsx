@@ -77,7 +77,7 @@ const Product: React.FC<ProductProps> = ({
 
             <div className="flex justify-between pt-3 font-medium text-lg px-3">
                 <h1>{brand ? brand : title}</h1>
-                <h3>Rs. {(price * 135).toFixed()}</h3>
+                <h3>Rs. {(Math.floor(price * 135))}</h3>
             </div>
             <h3 className="font-light text-[16px] px-3 mt-1">{title}</h3>
 
