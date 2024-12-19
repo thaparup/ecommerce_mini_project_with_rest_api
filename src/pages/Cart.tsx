@@ -4,24 +4,11 @@ import CartList from "../components/CartList";
 import ProceedToCheckout from "../components/ProceedToCheckout";
 import { useSelector } from "react-redux";
 import { RootState } from "../states/store/store";
-import { jwtDecode } from "jwt-decode";
-import { useIsTokenExpired } from "../hooks/useIsTokenExpired";
 
 const Cart: FC = () => {
     const cart = useSelector((state: RootState) => state.cart);
-    // const auth = JSON.parse(localStorage.getItem('auth')!)
-    // const token = auth.token
-    // const decoded = jwtDecode(token)
-    // console.log(decoded)
-    // const currentTime = new Date().getTime()
-    // if (currentTime > decoded.exp * 1000) {
-    //     console.log("expired token")
-    // }
-    // else {
-    //     console.log('token not expired')
-    // }
-    const auth = useIsTokenExpired()
-    console.log('auth from custom hook', auth)
+
+
 
 
     return (

@@ -10,7 +10,7 @@ const FilterByTitle = ({ }): JSX.Element => {
     return (
 
 
-        <div className="flex bg-white px-6 h-20 rounded-[90px] mt-8 relative max-[460px]:w-[70%]  ">
+        <div className="flex bg-white px-6 h-20 rounded-[90px] mt-8 relative max-[460px]:w-[70%]">
             <div className="flex flex-col gap-[2px] self-center max-[460px]:w-full ">
                 <p className="text-sm leading-none">Sort by</p>
                 <h3 className="text-xl font-semibold leading-none">Title</h3>

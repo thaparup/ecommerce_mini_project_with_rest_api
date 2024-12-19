@@ -11,28 +11,22 @@ import { useCartTotal } from "../hooks/useCartTotal";
 import { HtmlEmail } from "../components/HtmlEmail";
 import { useCheckoutContext } from "../states/context/CheckoutContext";
 
-
 const PaymentSuccess = () => {
     const fetchRef = useRef<boolean>(false);
 
-
-    const navigate = useNavigate()
+    const navigate = useNavigate();
     const storage = JSON.parse(localStorage.getItem("checkout")!);
 
     useEffect(() => {
-
         if (!storage || !storage.isCartConfirmed || !storage.isPaymentConfirmed) {
-            navigate('/cart')
-
+            navigate("/cart");
         }
+    }, [navigate]);
 
-    }, [navigate])
-
-
-    const auth = JSON.parse(localStorage.getItem('auth')!)
+    const auth = JSON.parse(localStorage.getItem("auth")!);
     const cart = useSelector((state: RootState) => state.cart);
-    const { address } = useAddressContext()
-    const { setCheckoutState } = useCheckoutContext()
+    const { address } = useAddressContext();
+    const { setCheckoutState } = useCheckoutContext();
 
     const rows = cart.cart
         .map((item, index) => {
@@ -49,7 +43,7 @@ const PaymentSuccess = () => {
 
     const sum = useCartTotal();
 
-    const tableHTML = HtmlEmail({ rows, address, sum })
+    const tableHTML = HtmlEmail({ rows, address, sum });
     const sendEmail = async () => {
         const templateParams = {
             to_email: auth.email,
@@ -61,25 +55,25 @@ const PaymentSuccess = () => {
         };
 
         try {
-            // const response = await emailjs.send(
-            //     "service_uzsk1re",
-            //     "contact_form",
-            //     templateParams,
-            //     "YQ72x7L7RItfWMoq5"
-            // );
+            const response = await emailjs.send(
+                "service_uzsk1re",
+                "contact_form",
+                templateParams,
+                "YQ72x7L7RItfWMoq5"
+            );
 
-            // if (response.status == 200) {
-
-            //     localStorage.removeItem('cart')
-            //     localStorage.removeItem('address')
-            //     localStorage.removeItem('totalQuantity')
-            //     localStorage.removeItem('checkout')
-            //     setTimeout(() => { navigate('/') }, 5000)
-            // }
+            if (response.status === 200) {
+                localStorage.removeItem("cart");
+                localStorage.removeItem("address");
+                localStorage.removeItem("totalQuantity");
+                localStorage.removeItem("checkout");
+                setTimeout(() => {
+                    navigate("/");
+                }, 5000);
+            }
         } catch (error) {
             console.error("Failed to send email:", error);
         }
-
     };
     useEffect(() => {
         if (!fetchRef.current) {
@@ -91,10 +85,7 @@ const PaymentSuccess = () => {
             sendEmail();
         }
         fetchRef.current = true;
-
-
     }, []);
-
 
     return (
         <div className="pb-12">

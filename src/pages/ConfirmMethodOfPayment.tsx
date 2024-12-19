@@ -9,7 +9,6 @@ import { useAddressContext } from "../states/context/AddressContext";
 import { useCartTotal } from "../hooks/useCartTotal";
 
 const ConfirmMethodOfPayment = () => {
-    const navigate = useNavigate();
     const storage = JSON.parse(localStorage.getItem("checkout")!);
 
     if (!storage) {

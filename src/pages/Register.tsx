@@ -2,41 +2,35 @@ import React, { useContext, useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import { db } from "./../../firebase-config";
 import { collection, addDoc, query, where, getDocs } from "firebase/firestore";
-import { createUserWithEmailAndPassword, getAuth, updateProfile } from "firebase/auth"
+import {
+    createUserWithEmailAndPassword,
+    getAuth,
+    updateProfile,
+} from "firebase/auth";
 import { toast } from "sonner";
 import { Toaster } from "../components/ui/sonner";
 import { Navigate, useNavigate } from "react-router-dom";
 
 const Register = () => {
     const [email, setEmail] = useState<string>("");
-    const [name, setName] = useState<string>('')
+    const [name, setName] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const [emailError, setEmailError] = useState<string>("");
     const [passwordError, setPasswordError] = useState<string>("");
     const [emailValidationError, setEmailValidationError] = useState<string>("");
-    const [nameError, setNameError] = useState<string>('')
+    const [nameError, setNameError] = useState<string>("");
 
     const emailRegex = /^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/;
-    const userRef = collection(db, "users");
+    // const userRef = collection(db, "users");
     const auth = getAuth();
     const navigate = useNavigate();
 
-
-    // useEffect(() => {
-    //     setTimeout(() => {
-    //         navigate('/auth/signin');
-    //     }, 2000);
-    // }, [navigate]);
-
     useEffect(() => {
-
-        document.body.style.overflowY = 'hidden'
+        document.body.style.overflowY = "hidden";
         return () => {
-
-            document.body.style.overflowY = 'scroll'
-        }
-    }, [])
-
+            document.body.style.overflowY = "scroll";
+        };
+    }, []);
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -44,23 +38,21 @@ const Register = () => {
         setEmailError("");
         setPasswordError("");
         setEmailValidationError("");
-        setNameError('')
+        setNameError("");
 
         if (!name) {
-            setNameError('Name is required*')
+            setNameError("Name is required*");
         }
 
         if (!email) {
             setEmailError("Email is required*");
-
         }
 
         if (!password) {
             setPasswordError("Password is required*");
-
         }
         if (!email || !password) {
-            return
+            return;
         }
 
         if (!emailRegex.test(email)) {
@@ -68,9 +60,12 @@ const Register = () => {
             return;
         }
 
-
         try {
-            const userCredential = await createUserWithEmailAndPassword(auth, email, password,);
+            const userCredential = await createUserWithEmailAndPassword(
+                auth,
+                email,
+                password
+            );
             const user = userCredential.user;
             await updateProfile(user, {
                 displayName: name,
@@ -78,26 +73,24 @@ const Register = () => {
 
             setEmail("");
             setPassword("");
-            setName('')
+            setName("");
 
             toast("User registered successfully");
             setTimeout(() => {
-                navigate('/auth/signin');
+                navigate("/auth/signin");
             }, 2000);
-
         } catch (error) {
             console.error("Error signing up user:", error);
 
             switch (error.code) {
-
-                case 'auth/email-already-in-use':
+                case "auth/email-already-in-use":
                     toast.warning("Email is already in use. Please try another one.", {
                         style: { color: "red" },
                         duration: 2000,
                         position: "top-right",
                     });
                     break;
-                case 'auth/weak-password':
+                case "auth/weak-password":
                     toast.warning("Password too weak ", {
                         style: { color: "red" },
                         duration: 2000,
@@ -109,16 +102,12 @@ const Register = () => {
                     break;
             }
         }
-
     };
 
     return (
-
         <div>
-
             <Toaster position="top-right" theme="light" />
             <section className="h-screen overflow-hidden flex items-center justify-center flex-col mb-20 ">
-
                 <div className="bg-white p-8 rounded-md lg:min-w-[35%]  md:min-w-[50%] sm:min-w-[70%] xs:min-w-[85%]">
                     <form action="" onSubmit={handleSubmit}>
                         <label htmlFor="" className="block font-medium">
@@ -173,7 +162,7 @@ const Register = () => {
                     </form>
                 </div>
             </section>
-        </div >
+        </div>
     );
 };
 

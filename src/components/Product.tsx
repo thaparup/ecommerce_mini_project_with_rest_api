@@ -21,6 +21,7 @@ const Product: React.FC<ProductProps> = ({
 }: ProductProps) => {
     const [isClicked, setIsClicked] = useState(false);
     const [atc, setAtc] = useState<string>("Add to cart");
+    const [isLoaded, setIsLoaded] = useState(false);
     const addToCartRef = useRef<boolean>(false);
     const navigate = useNavigate()
 
@@ -53,7 +54,6 @@ const Product: React.FC<ProductProps> = ({
         }, 1500);
     };
 
-    const [isLoaded, setIsLoaded] = useState(false);
 
     return (
         <div className="relative flex flex-col cardBoxShadow rounded-md ">

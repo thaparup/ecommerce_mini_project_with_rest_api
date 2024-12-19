@@ -1,25 +1,27 @@
-
-
-import { fetchSignInMethodsForEmail, getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import {
+    fetchSignInMethodsForEmail,
+    getAuth,
+    signInWithEmailAndPassword,
+} from "firebase/auth";
 import React, { useState, FormEvent } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useNavigate } from "react-router-dom";
 import { toast, Toaster } from "sonner";
 import { login } from "../states/store/slices/AuthSlice";
 import { RootState } from "../states/store/store";
+import { app } from "../../firebase-config";
 
 const Signin: React.FC = () => {
-    const auth = getAuth();
-    const [email, setEmail] = useState<string>("");
-    const [password, setPassword] = useState<string>("");
-    const [emailError, setEmailError] = useState<string>("");
-    const [passwordError, setPasswordError] = useState<string>("");
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
     const authToken = useSelector((state: RootState) => state.auth);
     if (JSON.stringify(authToken.auth) !== `{}`) {
         return <Navigate to="/" />;
     }
+    const auth = getAuth(app);
+    const [email, setEmail] = useState<string>("");
+    const [password, setPassword] = useState<string>("");
+    const [emailError, setEmailError] = useState<string>("");
+    const [passwordError, setPasswordError] = useState<string>("");
+    const dispatch = useDispatch();
 
     document.body.style.overflowY = "hidden";
     document.body.style.overflowX = "hidden";
@@ -37,10 +39,8 @@ const Signin: React.FC = () => {
             return;
         }
         try {
-
             const signInMethods = await fetchSignInMethodsForEmail(auth, email);
             if (signInMethods.length > 0) {
-
                 toast.warning("Email is already in use. Please try another one.", {
                     style: { color: "red" },
                     duration: 2000,
@@ -48,8 +48,6 @@ const Signin: React.FC = () => {
                 });
                 return;
             }
-
-
 
             const userCredential = await signInWithEmailAndPassword(
                 auth,
@@ -60,14 +58,10 @@ const Signin: React.FC = () => {
             const user = userCredential.user;
 
             const token = await user.getIdToken();
-            console.log(token)
-            dispatch(login({ token, email: user.email || "", name: user.displayName || '' }));
-            // toast.success("Signed in successfully!", {
-            //     duration: 2000,
-            //     position: "top-right",
-            // });
-
-            // setTimeout(() => navigate("/"), 5000)
+            console.log(token);
+            dispatch(
+                login({ token, email: user.email || "", name: user.displayName || "" })
+            );
         } catch (error) {
             console.error("Error signing in user:", error);
             switch (error.code) {
@@ -120,7 +114,9 @@ const Signin: React.FC = () => {
     return (
         <div className={`h-screen flex justify-center items-center`}>
             <Toaster />
-            <div className={`bg-white px-14 py-8 rounded-md shadow-md mb-10  lg:min-w-[35%] md:min-w-[50%] sm:min-w-[70%] xs:min-w-[85%]`}>
+            <div
+                className={`bg-white px-14 py-8 rounded-md shadow-md mb-10  lg:min-w-[35%] md:min-w-[50%] sm:min-w-[70%] xs:min-w-[85%]`}
+            >
                 <form action="" onSubmit={handleSubmit}>
                     <label htmlFor="" className="block font-medium">
                         Email

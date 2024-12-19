@@ -7,49 +7,50 @@ import { addToCart, removeFromTheCart } from "../states/store/slices/cartSlice";
 import { toast, Toaster } from "sonner";
 import { SingleProductType } from "../types/typeSingleProduct";
 import { RootState } from "../states/store/store";
+import { useIsTokenExpired } from "../hooks/useIsTokenExpired";
 
 interface SingleProductProps { }
 const SingleProduct: FC<SingleProductProps> = ({ }) => {
     const { id } = useParams();
-    const [noq, setNoq] = useState<number>(0);
     const reviewSectionRef = useRef<HTMLDivElement>(null);
     const [imageIndex, setImageIndex] = useState<number>(0);
     const [hasFirstImageLoaded, setHasFirstImageLoaded] = useState(false);
     const [hasArrayOfImageLoaded, setHasArrayOfImageLoaded] = useState(false);
-    const authToken = useSelector((state: RootState) => state.auth)
-    const navigate = useNavigate()
+    const isTokenExpired = useIsTokenExpired();
+    const navigate = useNavigate();
     const { data } = useFetch<SingleProductType>(
         `https://dummyjson.com/products/${id}`
     );
 
     const dispatch = useDispatch();
     const handleIncrement = (
-        brand: brand,
-        price: price,
-        title: title,
-        thumbnail: thumbnail,
-        id: id,
+        brand: string,
+        price: number,
+        title: string,
+        thumbnail: string,
+        id: number
     ) => {
-        setNoq((prev) => prev + 1);
-
-        dispatch(
-            addToCart({
-                brand: brand,
-                price: price,
-                title: title,
-                thumbnail: thumbnail,
-                id: id,
-            })
-        );
-        toast("Added to cart successfully! ");
+        setNoq((prev) => {
+            const updatedNoq = prev + 1;
+            dispatch(
+                addToCart({
+                    brand: brand,
+                    price: price,
+                    title: title,
+                    thumbnail: thumbnail,
+                    id: id,
+                })
+            );
+            toast("Added to cart successfully! ");
+            return updatedNoq;
+        });
     };
-
     const handleDecrement = (
         brand: string,
-        id: number,
         price: number,
-        thumbnail: string,
         title: string,
+        thumbnail: string,
+        id: number
     ) => {
         setNoq((prev) => (prev === 0 ? 0 : prev - 1));
         if (noq === 0) {
@@ -66,6 +67,19 @@ const SingleProduct: FC<SingleProductProps> = ({ }) => {
         );
         toast("Removed from the cart successfully! ");
     };
+
+    const cart = useSelector((state: RootState) => state.cart);
+
+    const findQuantity = cart.cart.find((item) => item.id === data?.id);
+
+    const [noq, setNoq] = useState<number>(0);
+    useEffect(() => {
+        if (findQuantity) {
+            setNoq(findQuantity.quantity ?? 0);
+        } else {
+            setNoq(0);
+        }
+    }, [findQuantity]);
 
     const dateAndTimeConverter = (receivedDate: string) => {
         const date = new Date(receivedDate);
@@ -97,27 +111,31 @@ const SingleProduct: FC<SingleProductProps> = ({ }) => {
             <div className="  bg-white grid grid-cols-12 gap-7 w-full mt-12 rounded-sm p-4 max-lg:flex max-lg:flex-wrap max-md:flex max-md:flex-col max-md:gap-5 max-md:items-center">
                 <div className=" col-span-4 ">
                     <div className="flex flex-col gap-4">
-                        {!hasFirstImageLoaded && (
-                            <div className="w-[438px] h-[300px] rounded-md skeleton absolute"></div>
-                        )}
+                        <div className="relative">
+                            {!hasFirstImageLoaded && (
+                                <div className=" w-full h-[300px] rounded-md skeleton absolute"></div>
+                            )}
 
-                        <img
-                            src={data?.images[`${imageIndex}`]}
-                            alt=""
-                            className="w-[500px] h-[300px] object-contain bg-zinc-100 rounded-md shadow-md"
-                            onLoad={() =>
-                                setTimeout(() => setHasFirstImageLoaded(true), 1000)
-                            }
-                        />
-                        <div className="flex gap-2">
+                            <img
+                                src={data?.images[`${imageIndex}`]}
+                                alt=""
+                                className="w-full h-[300px] object-contain bg-zinc-100 rounded-md shadow-md"
+                                onLoad={() => setHasFirstImageLoaded(true)}
+                            />
+                        </div>
+                        <div className="flex gap-2 ">
                             {data?.images.map((img, index) => (
-                                <button onClick={() => setImageIndex(index)}>
+                                <button
+                                    onClick={() => setImageIndex(index)}
+                                    className="relative"
+                                    key={index}
+                                >
                                     {!hasArrayOfImageLoaded && (
                                         <div className="h-[100px] w-[100px] rounded-md skeleton absolute"></div>
                                     )}
                                     <img
                                         src={img}
-                                        className="h-[100px] w-[100px] object-contain border-2 border-purple-200"
+                                        className="h-[100px] w-[100px] object-contain border-2 border-cyan-200"
                                         onLoad={() =>
                                             setTimeout(() => setHasArrayOfImageLoaded(true), 1000)
                                         }
@@ -201,8 +219,14 @@ const SingleProduct: FC<SingleProductProps> = ({ }) => {
                         </div>
                     </div>
                     <div className="mt-2">
-
-                        <button className="bg-primaryColor text-white px-8 py-2 rounded-md font-medium" onClick={() => { JSON.stringify(authToken.auth) === "{}" ? navigate('/auth/signin') : navigate('/cart') }}>Checkout</button>
+                        <button
+                            className="bg-primaryColor text-white px-8 py-2 rounded-md font-medium"
+                            onClick={() => {
+                                isTokenExpired ? navigate("/auth/signin") : navigate("/cart");
+                            }}
+                        >
+                            Checkout
+                        </button>
                     </div>
                 </div>
                 <div className="col-span-4 flex flex-col gap-3 max-lg:mx-auto">
