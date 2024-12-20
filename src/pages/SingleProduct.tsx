@@ -1,6 +1,5 @@
-import React, { FC, useEffect, useRef, useState } from "react";
-import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
-import ProductCard from "./ProductCart";
+import { FC, useEffect, useRef, useState } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import useFetch from "../hooks/useFetch";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart, removeFromTheCart } from "../states/store/slices/cartSlice";
@@ -136,9 +135,7 @@ const SingleProduct: FC<SingleProductProps> = ({ }) => {
                                     <img
                                         src={img}
                                         className="h-[100px] w-[100px] object-contain border-2 border-cyan-200"
-                                        onLoad={() =>
-                                            setTimeout(() => setHasArrayOfImageLoaded(true), 1000)
-                                        }
+                                        onLoad={() => setHasArrayOfImageLoaded(true)}
                                     />
                                 </button>
                             ))}
@@ -182,7 +179,7 @@ const SingleProduct: FC<SingleProductProps> = ({ }) => {
 
                     <hr />
                     <h1 className="text-4xl text-primaryColor font-normal py-4">
-                        Rs. {(data?.price * 135).toFixed()}
+                        Rs. {data?.price ? Math.floor(data.price * 135) : 0}
                     </h1>
                     <div className="mt-4 flex items-center">
                         <p className="text-gray-500 mr-2">Quantity:</p>
@@ -191,11 +188,11 @@ const SingleProduct: FC<SingleProductProps> = ({ }) => {
                                 className="px-2 py-1 border-r text-gray-700"
                                 onClick={() =>
                                     handleDecrement(
-                                        data?.brand,
-                                        data?.price,
-                                        data?.title,
-                                        data?.thumbnail,
-                                        data?.id
+                                        data?.brand ?? "",
+                                        data?.price ?? 0,
+                                        data?.title ?? "",
+                                        data?.thumbnail ?? "",
+                                        data?.id ?? 0
                                     )
                                 }
                             >
@@ -206,11 +203,11 @@ const SingleProduct: FC<SingleProductProps> = ({ }) => {
                                 className="px-2 py-1 border-l text-gray-700"
                                 onClick={() =>
                                     handleIncrement(
-                                        data?.brand,
-                                        data?.price,
-                                        data?.title,
-                                        data?.thumbnail,
-                                        data?.id
+                                        data?.brand ?? "",
+                                        data?.price ?? 0,
+                                        data?.title ?? "",
+                                        data?.thumbnail ?? "",
+                                        data?.id ?? 0
                                     )
                                 }
                             >

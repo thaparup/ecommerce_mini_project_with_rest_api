@@ -1,20 +1,22 @@
 import {
-    fetchSignInMethodsForEmail,
     getAuth,
     signInWithEmailAndPassword,
 } from "firebase/auth";
 import React, { useState, FormEvent } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useDispatch, } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { toast, Toaster } from "sonner";
 import { login } from "../states/store/slices/AuthSlice";
-import { RootState } from "../states/store/store";
 import { app } from "../../firebase-config";
+import { FirebaseError } from "firebase/app";
+import { useIsTokenExpired } from "../hooks/useIsTokenExpired";
 
 const Signin: React.FC = () => {
-    const authToken = useSelector((state: RootState) => state.auth);
-    if (JSON.stringify(authToken.auth) !== `{}`) {
-        return <Navigate to="/" />;
+    const isTokenExpired = useIsTokenExpired();
+    const nav = useNavigate()
+
+    if (!isTokenExpired) {
+        nav('/')
     }
     const auth = getAuth(app);
     const [email, setEmail] = useState<string>("");
@@ -25,11 +27,11 @@ const Signin: React.FC = () => {
 
     document.body.style.overflowY = "hidden";
     document.body.style.overflowX = "hidden";
-
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
         setEmailError("");
         setPasswordError("");
+
         if (!email) {
             setEmailError("Email is missing");
             return;
@@ -38,84 +40,74 @@ const Signin: React.FC = () => {
             setPasswordError("Password is missing");
             return;
         }
+
         try {
-            const signInMethods = await fetchSignInMethodsForEmail(auth, email);
-            if (signInMethods.length > 0) {
-                toast.warning("Email is already in use. Please try another one.", {
-                    style: { color: "red" },
-                    duration: 2000,
-                    position: "top-right",
-                });
-                return;
-            }
-
-            const userCredential = await signInWithEmailAndPassword(
-                auth,
-                email,
-
-                password
-            );
+            const userCredential = await signInWithEmailAndPassword(auth, email, password);
             const user = userCredential.user;
 
             const token = await user.getIdToken();
-            console.log(token);
             dispatch(
                 login({ token, email: user.email || "", name: user.displayName || "" })
             );
         } catch (error) {
             console.error("Error signing in user:", error);
-            switch (error.code) {
-                case "auth/invalid-credential":
-                    toast.warning(`Password or Email doesn't match`, {
-                        style: { color: "red" },
-                        duration: 2000,
-                        position: "top-right",
-                    });
-                    break;
-                case "auth/user-not-found":
-                    toast.warning("No user found with this email", {
-                        style: { color: "red" },
-                        duration: 2000,
-                        position: "top-right",
-                    });
-                    break;
-                case "auth/wrong-password":
-                    toast.warning("Incorrect password", {
-                        style: { color: "red" },
-                        duration: 2000,
-                        position: "top-right",
-                    });
-                    break;
-                case "auth/invalid-email":
-                    toast.warning("Invalid email format", {
-                        style: { color: "red" },
-                        duration: 2000,
-                        position: "top-right",
-                    });
-                    break;
-                case "auth/too-many-requests":
-                    toast.warning("Too many failed attempts. Please try again later.", {
-                        style: { color: "red" },
-                        duration: 2000,
-                        position: "top-right",
-                    });
-                    break;
-                default:
-                    toast.warning("Failed to sign in. Please try again.", {
-                        style: { color: "red" },
-                        duration: 2000,
-                        position: "top-right",
-                    });
-                    break;
+
+            if (error instanceof FirebaseError) {
+                switch (error.code) {
+                    case "auth/invalid-credential":
+                        toast.warning(`Password or Email doesn't match`, {
+                            style: { color: "red" },
+                            duration: 2000,
+                            position: "top-right",
+                        });
+                        break;
+                    case "auth/user-not-found":
+                        toast.warning("No user found with this email", {
+                            style: { color: "red" },
+                            duration: 2000,
+                            position: "top-right",
+                        });
+                        break;
+                    case "auth/wrong-password":
+                        toast.warning("Incorrect password", {
+                            style: { color: "red" },
+                            duration: 2000,
+                            position: "top-right",
+                        });
+                        break;
+                    case "auth/invalid-email":
+                        toast.warning("Invalid email format", {
+                            style: { color: "red" },
+                            duration: 2000,
+                            position: "top-right",
+                        });
+                        break;
+                    case "auth/too-many-requests":
+                        toast.warning("Too many failed attempts. Please try again later.", {
+                            style: { color: "red" },
+                            duration: 2000,
+                            position: "top-right",
+                        });
+                        break;
+                    default:
+                        toast.warning("Failed to sign in. Please try again.", {
+                            style: { color: "red" },
+                            duration: 2000,
+                            position: "top-right",
+                        });
+                        break;
+                }
             }
         }
     };
+
+
 
     return (
         <div className={`h-screen flex justify-center items-center`}>
             <Toaster />
             <div
-                className={`bg-white px-14 py-8 rounded-md shadow-md mb-10  lg:min-w-[35%] md:min-w-[50%] sm:min-w-[70%] xs:min-w-[85%]`}
+                className={`bg-white px-14 py-8 rounded-md shadow-md mb-10 xl:min-w-[35%] lg:min-w-[45%] md:min-w-[50%] sm:min-w-[70%] xs:min-w-[85%]`}
             >
                 <form action="" onSubmit={handleSubmit}>
                     <label htmlFor="" className="block font-medium">

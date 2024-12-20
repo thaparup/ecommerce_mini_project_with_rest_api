@@ -1,17 +1,14 @@
-import React, { FC, FormEventHandler, useEffect, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../states/store/store";
+import { RootState } from "../states/store/store";
 import { AiOutlineDelete } from "react-icons/ai";
 import Map from "./Map";
-import { toast, Toaster } from "sonner";
+import { toast } from "sonner";
 import {
     clearCart,
     deleteWholeItemFromTheCart,
 } from "../states/store/slices/cartSlice";
-import { Navigate, useLocation, useNavigate } from "react-router-dom";
-import PaymentSuccess from "../pages/PaymentSuccess";
 import { useAddressContext } from "../states/context/AddressContext";
-import { useCheckoutContext } from "../states/context/CheckoutContext";
 import { useCartTotal } from "../hooks/useCartTotal";
 
 const ProceedToCheckout: FC = () => {

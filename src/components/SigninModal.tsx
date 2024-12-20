@@ -1,14 +1,10 @@
-"use client";
-
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { Dispatch, SetStateAction, useCallback, useEffect, useState } from "react";
-import { IoMdClose } from "react-icons/io";
+import { Dispatch, SetStateAction, useState } from "react";
 import { LiaTimesSolid } from "react-icons/lia";
 import { toast } from "sonner";
 
-
 interface SigninModalProps {
-    modal: boolean
+    modal: boolean;
     setModal: Dispatch<SetStateAction<boolean>>;
 }
 
@@ -17,12 +13,15 @@ const SigninModal: React.FC<SigninModalProps> = ({ modal, setModal }) => {
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
 
-    const handleSubmit = async (e: HTMLFormElement) => {
+    const handleSubmit = async (e: any) => {
         e.preventDefault();
-        console.log(email)
-        console.log(password)
+
         try {
-            const userCredential = await signInWithEmailAndPassword(auth, email, password);
+            const userCredential = await signInWithEmailAndPassword(
+                auth,
+                email,
+                password
+            );
             const user = userCredential.user;
 
             // Get the JWT token
@@ -37,13 +36,20 @@ const SigninModal: React.FC<SigninModalProps> = ({ modal, setModal }) => {
             console.error("Error signing in user:", error);
             toast("Failed to sign in");
         }
-
-    }
-
+    };
 
     return (
-        <div className={` ${modal ? 'fixed flex justify-center inset-0 bg-neutral-400/70 opacity-100 z-50 items-center' : 'opacity-0 h-0 overflow-y-hidden'}`}>
-            <div className={`transition-all duration-500 ease-in-out  ${modal ? 'bg-white h-fit p-6 rounded-md shadow-md  relative ' : 'hidden'}`}
+        <div
+            className={` ${modal
+                ? "fixed flex justify-center inset-0 bg-neutral-400/70 opacity-100 z-50 items-center"
+                : "opacity-0 h-0 overflow-y-hidden"
+                }`}
+        >
+            <div
+                className={`transition-all duration-500 ease-in-out  ${modal
+                    ? "bg-white h-fit p-6 rounded-md shadow-md  relative "
+                    : "hidden"
+                    }`}
             // ref={modalRef}
             >
                 <button
@@ -93,7 +99,7 @@ const SigninModal: React.FC<SigninModalProps> = ({ modal, setModal }) => {
                     </div>
                 </form>
             </div>
-        </div >
+        </div>
     );
 };
 

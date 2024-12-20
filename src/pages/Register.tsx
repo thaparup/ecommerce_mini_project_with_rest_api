@@ -1,7 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
-import Navbar from "../components/Navbar";
-import { db } from "./../../firebase-config";
-import { collection, addDoc, query, where, getDocs } from "firebase/firestore";
+import React, { useEffect, useState } from "react";
 import {
     createUserWithEmailAndPassword,
     getAuth,
@@ -9,7 +6,9 @@ import {
 } from "firebase/auth";
 import { toast } from "sonner";
 import { Toaster } from "../components/ui/sonner";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { FirebaseError } from "firebase/app";
+import { app } from "./../../firebase-config"
 
 const Register = () => {
     const [email, setEmail] = useState<string>("");
@@ -22,7 +21,7 @@ const Register = () => {
 
     const emailRegex = /^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/;
     // const userRef = collection(db, "users");
-    const auth = getAuth();
+    const auth = getAuth(app);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -82,28 +81,33 @@ const Register = () => {
         } catch (error) {
             console.error("Error signing up user:", error);
 
-            switch (error.code) {
-                case "auth/email-already-in-use":
-                    toast.warning("Email is already in use. Please try another one.", {
-                        style: { color: "red" },
-                        duration: 2000,
-                        position: "top-right",
-                    });
-                    break;
-                case "auth/weak-password":
-                    toast.warning("Password too weak ", {
-                        style: { color: "red" },
-                        duration: 2000,
-                        position: "top-right",
-                    });
-                    break;
-                default:
-                    toast("Failed to sign in. Please try again.");
-                    break;
+
+            if (error instanceof FirebaseError) {
+                switch (error.code) {
+                    case "auth/email-already-in-use":
+                        toast.warning("Email is already in use. Please try another one.", {
+                            style: { color: "red" },
+                            duration: 2000,
+                            position: "top-right",
+                        });
+                        break;
+                    case "auth/weak-password":
+                        toast.warning("Password too weak ", {
+                            style: { color: "red" },
+                            duration: 2000,
+                            position: "top-right",
+                        });
+                        break;
+                    default:
+                        toast("Failed to sign in. Please try again.");
+                        break;
+                }
+            } else {
+                // If the error is not a FirebaseError, handle it as a general error
+                toast("An unknown error occurred. Please try again.");
             }
         }
     };
-
     return (
         <div>
             <Toaster position="top-right" theme="light" />

@@ -5,9 +5,10 @@ import { FaArrowDown } from "react-icons/fa";
 import ProductSkeleton from "../components/ProductSkeleton";
 import Filter from "../components/Filters/Filter";
 import { useFilterContext } from "../states/context/FilterContext";
+import { SearchQueryType } from "../types/typeSearchQuery";
 
 const Homepage = () => {
-    const [data, setData] = useState<TypeProductsRespnse | null>(null);
+    const [data, setData] = useState<TypeProductsRespnse | SearchQueryType | null>(null);
     const [isLoadingProducts, setIsLoadingProducts] = useState<boolean>(false);
     const [loadmoreProducts, setLoadMoreProducts] = useState(false);
     const [search, setSearch] = useState<string>("");
@@ -16,7 +17,7 @@ const Homepage = () => {
     const { selected } = useFilterContext();
     const prevSelectedRef = useRef(selected);
     const counterRef = useRef<number>(0);
-    const [searchData, setSearchData] = useState();
+    const [searchData, setSearchData] = useState<SearchQueryType>();
 
     document.body.style.overflowY = "scroll";
     const totalSkippedRef = useRef(0);
@@ -40,7 +41,6 @@ const Homepage = () => {
                 `https://dummyjson.com/products?limit=${12}&skip=${totalSkippedRef.current
                 }&select=title,price,thumbnail,brand` + selected
             );
-            console.log("from function", res);
 
             const data: TypeProductsRespnse = await res.json();
             setData((prev) => {

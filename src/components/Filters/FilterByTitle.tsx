@@ -1,5 +1,4 @@
 import { FaChevronDown } from "react-icons/fa";
-import MenuItems from "../MenuItems";
 import Menu from "../Menu";
 import { useFilterContext } from "../../states/context/FilterContext";
 

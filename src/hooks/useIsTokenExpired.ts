@@ -1,4 +1,3 @@
-// import { useSelector } from "react-redux";
 import { useSelector } from "react-redux";
 import { RootState } from "../states/store/store";
 import { jwtDecode } from "jwt-decode";
@@ -12,8 +11,12 @@ export const useIsTokenExpired = (): boolean => {
 
   let decoded;
   try {
-    decoded = jwtDecode(auth.token);
+    decoded = jwtDecode(auth.token) as { exp?: number };
   } catch (e) {
+    return true;
+  }
+
+  if (!decoded.exp) {
     return true;
   }
 

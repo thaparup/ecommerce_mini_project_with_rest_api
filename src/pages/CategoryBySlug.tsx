@@ -1,14 +1,13 @@
-import React, { FC, useEffect, useRef, useState } from "react";
+import { FC } from "react";
 import useFetch from "../hooks/useFetch";
 import { useParams } from "react-router-dom";
-
 import Product from "../components/Product";
 import ProductSkeleton from "../components/ProductSkeleton";
-
+import { CategoryBySlugType } from "../types/typeCategoryBySlug";
 const CategoryBySlug: FC = ({ }) => {
     const { slug } = useParams();
 
-    const { data, loading } = useFetch(
+    const { data, loading } = useFetch<CategoryBySlugType>(
         `https://dummyjson.com/products/category/${slug}`
     );
 

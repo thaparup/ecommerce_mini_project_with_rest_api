@@ -1,6 +1,6 @@
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import emailjs from "emailjs-com";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "../states/store/store";
 import { useAddressContext } from "../states/context/AddressContext";
@@ -9,7 +9,6 @@ import { Toaster } from "../components/ui/sonner";
 import SuccessTable from "../components/SuccessTable";
 import { useCartTotal } from "../hooks/useCartTotal";
 import { HtmlEmail } from "../components/HtmlEmail";
-import { useCheckoutContext } from "../states/context/CheckoutContext";
 
 const PaymentSuccess = () => {
     const fetchRef = useRef<boolean>(false);
@@ -26,7 +25,6 @@ const PaymentSuccess = () => {
     const auth = JSON.parse(localStorage.getItem("auth")!);
     const cart = useSelector((state: RootState) => state.cart);
     const { address } = useAddressContext();
-    const { setCheckoutState } = useCheckoutContext();
 
     const rows = cart.cart
         .map((item, index) => {

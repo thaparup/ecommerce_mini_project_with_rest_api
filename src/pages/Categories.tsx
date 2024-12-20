@@ -1,13 +1,11 @@
-import React, { useEffect, useState } from "react";
 import useFetch from "../hooks/useFetch";
 import { TypeCategory } from "../types/typeCategory";
 import Category from "../components/Category";
 import { CategoryList } from "../constants/categoryList";
-import ProductSkeleton from "../components/ProductSkeleton";
 import CategorySkeleton from "../components/CategorySkeleton";
 
 const Categories = () => {
-    const { data, loading, error } = useFetch<TypeCategory[]>(
+    const { data, loading } = useFetch<TypeCategory[]>(
         "https://dummyjson.com/products/categories"
     );
 

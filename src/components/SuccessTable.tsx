@@ -1,4 +1,3 @@
-import React from "react";
 import { typeProduct } from "../types/typeProduct";
 
 const SuccessTable = ({

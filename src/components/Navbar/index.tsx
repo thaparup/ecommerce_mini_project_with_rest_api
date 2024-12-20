@@ -1,12 +1,10 @@
 import { useEffect, useState } from "react";
 import { CiShoppingCart } from "react-icons/ci";
 import { IoPersonOutline } from "react-icons/io5";
-import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import NavMenuForMediumAndSmallerDevice from "./NavMenuForMediumAndSmallerDevice";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../states/store/store";
-import SigninModal from "../SigninModal";
-import Signin from "../../pages/Singin";
 import Menu from "../Menu";
 import { logout } from "../../states/store/slices/AuthSlice";
 import { useIsTokenExpired } from "../../hooks/useIsTokenExpired";
@@ -20,7 +18,6 @@ const Navbar: React.FC = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate();
     const tokenExpired = useIsTokenExpired()
-    console.log('token expired', tokenExpired)
     useEffect(() => {
         setActiveLink(location.pathname);
     }, [location.pathname]);
@@ -75,7 +72,7 @@ const Navbar: React.FC = () => {
                     )}
 
                     <li className="flex gap-[3px] ">
-                        <div className=" flex self-center relative -translate-y-[2px]">
+                        <div className=" flex self-center relative -translate-y-[2px]  ">
                             <CiShoppingCart
                                 size={24}
                                 className="self-center text-primaryColor"

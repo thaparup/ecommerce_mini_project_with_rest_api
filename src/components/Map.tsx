@@ -1,9 +1,8 @@
-import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
+import { MapContainer, Marker, Popup, TileLayer, } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { LiaTimesSolid } from "react-icons/lia";
-import React, { Dispatch, SetStateAction } from "react";
-import useFetch from "../hooks/useFetch";
+import { Dispatch, SetStateAction } from "react";
 import { LeafletEvent, LeafletEventHandlerFnMap } from "leaflet";
 import { useAddressContext } from "../states/context/AddressContext";
 
@@ -15,7 +14,7 @@ type MapProps = {
 };
 
 const Map = ({ showModal, setShowModal }: MapProps) => {
-    const [position, setPosition] = useState({ lat: 27.7103, lng: 85.3222 });
+    const [position] = useState({ lat: 27.7103, lng: 85.3222 });
     const modalRef = useRef<HTMLDivElement>(null);
     const { address, setAddress } = useAddressContext();
 
@@ -31,12 +30,12 @@ const Map = ({ showModal, setShowModal }: MapProps) => {
                 `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`
             );
             const responseData = await response.json();
-            setAddress((prev) => {
+            setAddress(() => {
                 localStorage.setItem(
                     "address",
                     JSON.stringify(responseData.display_name)
                 )!;
-                prev = JSON.parse(localStorage.getItem("address")!);
+                // prev = JSON.parse(localStorage.getItem("address")!);
                 return responseData.display_name;
             });
             console.log(address);

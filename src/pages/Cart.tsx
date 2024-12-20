@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react";
+import { FC } from "react";
 import { Toaster } from "../components/ui/sonner";
 import CartList from "../components/CartList";
 import ProceedToCheckout from "../components/ProceedToCheckout";

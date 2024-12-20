@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../states/store/store";
 import { toast, Toaster } from "sonner";
 import CheckoutModal from "../components/CheckoutModal";
-import { useCheckoutContext } from "../states/context/CheckoutContext";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Navigate, } from "react-router-dom";
 import { useAddressContext } from "../states/context/AddressContext";
 import { useCartTotal } from "../hooks/useCartTotal";
 

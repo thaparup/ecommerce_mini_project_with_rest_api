@@ -1,9 +1,8 @@
 import React, { useRef, useState } from "react";
 import { FaBox, FaShoppingCart } from "react-icons/fa";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { addToCart } from "../states/store/slices/cartSlice";
-import { RootState } from "../states/store/store";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 type ProductProps = {
     brand: string;

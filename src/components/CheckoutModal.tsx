@@ -1,8 +1,6 @@
-import React, { SetStateAction, useEffect, useRef } from "react";
+import React, { SetStateAction, useRef } from "react";
 import { LiaTimesSolid } from "react-icons/lia";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../states/store/store";
-import { Navigate, useLocation } from "react-router-dom";
+import { Navigate, } from "react-router-dom";
 import { useCartTotal } from "../hooks/useCartTotal";
 
 const CheckoutModal = ({
@@ -17,9 +15,7 @@ const CheckoutModal = ({
     const storage = JSON.parse(localStorage.getItem("checkout")!);
     if (!storage.isCartConfirmed || !storage) return <Navigate to="/cart" />;
 
-    const location = useLocation();
-    const modalRef = useRef(null);
-    const cart = useSelector((state: RootState) => state.cart);
+    const modalRef = useRef<HTMLDivElement>(null);
     const sum = useCartTotal();
     const amtInNrs = Math.floor((sum * 135) + 100)
     const randomAlphaNumericString = "123456789ABCDEFGHIJKLMONOQRSTUVWQYZX";

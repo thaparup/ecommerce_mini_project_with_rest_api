@@ -1,4 +1,4 @@
-import { FC, useEffect, useRef, useState } from "react";
+import { FC, useState } from "react";
 import { useDispatch } from "react-redux";
 import { addToCart, removeFromTheCart } from "../states/store/slices/cartSlice";
 import { toast } from "sonner";

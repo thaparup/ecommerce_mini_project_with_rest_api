@@ -1,6 +1,3 @@
-import { useEffect } from "react";
-import { typeProduct } from "../types/typeProduct";
-
 export const HtmlEmail = ({
   rows,
   address,
