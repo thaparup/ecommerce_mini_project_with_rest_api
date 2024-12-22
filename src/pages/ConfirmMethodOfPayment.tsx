@@ -3,30 +3,28 @@ import { useSelector } from "react-redux";
 import { RootState } from "../states/store/store";
 import { toast, Toaster } from "sonner";
 import CheckoutModal from "../components/CheckoutModal";
-import { Navigate, } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAddressContext } from "../states/context/AddressContext";
 import { useCartTotal } from "../hooks/useCartTotal";
+import { useIsTokenExpired } from "../hooks/useIsTokenExpired";
 
 const ConfirmMethodOfPayment = () => {
+    const nav = useNavigate();
+    const isTokenExpired = useIsTokenExpired();
+    if (isTokenExpired) nav("/auth/signin");
     const storage = JSON.parse(localStorage.getItem("checkout")!);
-
-    if (!storage) {
-        return <Navigate to="/cart" />;
-    }
-
-    useEffect(() => {
-        return () => {
-            setCheckout('');
-        };
-    }, []);
+    if (!storage.isCartConfirmed) nav("cart");
     const cart = useSelector((state: RootState) => state.cart);
     const [modal, setModal] = useState<boolean>(false);
-
     const sum = useCartTotal();
-    const [checkout, setCheckout] = useState<string>("");
     const { address } = useAddressContext();
+    const [checkout, setCheckout] = useState<string>("");
+    useEffect(() => {
+        return () => {
+            setCheckout("");
+        };
+    }, []);
     const handleClick = () => {
-        console.log(checkout)
         if (!checkout) {
             toast.warning("Please choose the method of payment", {
                 style: { color: "red", fontSize: "1rem" },

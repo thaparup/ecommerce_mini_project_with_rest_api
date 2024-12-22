@@ -15,16 +15,14 @@ const ProceedToCheckout: FC = () => {
     const cart = useSelector((state: RootState) => state.cart);
     const dispatch = useDispatch();
     const [showModal, setShowModal] = useState<boolean>(false);
-    // const [address, setAddress] = useState<string>()
     const { address, setAddress } = useAddressContext();
     const sum = useCartTotal()
-    console.log('sum from cart', sum)
+
     useEffect(() => {
         const queryParams = new URLSearchParams(location.search);
         const isSuccess = queryParams.get("success");
 
         if (isSuccess) {
-            alert("this ran for once");
             dispatch(clearCart());
         }
     }, [location.search, dispatch]);

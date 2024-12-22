@@ -9,11 +9,14 @@ import { Toaster } from "../components/ui/sonner";
 import SuccessTable from "../components/SuccessTable";
 import { useCartTotal } from "../hooks/useCartTotal";
 import { HtmlEmail } from "../components/HtmlEmail";
+import { useIsTokenExpired } from "../hooks/useIsTokenExpired";
 
 const PaymentSuccess = () => {
+    const navigate = useNavigate();
+    const isTokenExpired = useIsTokenExpired();
+    if (isTokenExpired) navigate("/auth/signin");
     const fetchRef = useRef<boolean>(false);
 
-    const navigate = useNavigate();
     const storage = JSON.parse(localStorage.getItem("checkout")!);
 
     useEffect(() => {
@@ -22,7 +25,8 @@ const PaymentSuccess = () => {
         }
     }, [navigate]);
 
-    const auth = JSON.parse(localStorage.getItem("auth")!);
+    const auth = JSON.parse(localStorage.getItem('auth')!)
+
     const cart = useSelector((state: RootState) => state.cart);
     const { address } = useAddressContext();
 

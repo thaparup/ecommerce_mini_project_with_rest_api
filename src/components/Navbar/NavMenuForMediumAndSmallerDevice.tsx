@@ -34,10 +34,8 @@ const NavMenuForMediumAndSmallerDevice: React.FC<
                 className={` flex md:hidden justify-between list-none mt-6 ${menuBurger && ""
                     }`}
             >
-                <li className="">
-                    <h3 className="text-2xl font-bold leading-0 text-primaryColor ">
-                        eMart
-                    </h3>
+                <li className="text-2xl font-bold leading-0 text-purple-500">
+                    <Link to='/'> <span className="text-primaryColor">e</span>Mart</Link>
                 </li>
                 <li className="flex gap-5">
                     <div className=" flex self-center relative ">
@@ -109,7 +107,7 @@ const NavMenuForMediumAndSmallerDevice: React.FC<
                             <div className=" flex self-center relative">
                                 <CiShoppingCart size={24} className="self-center" />
                                 <div className="bg-primaryColor h-5 w-5 flex rounded-full absolute top-3 left-3">
-                                    <p className="mx-auto self-center text-white text-sm">{tq}</p>
+                                    <p className="mx-auto self-center text-white text-sm">{tq ? tq : 0}</p>
                                 </div>
                             </div>
                         </Link>

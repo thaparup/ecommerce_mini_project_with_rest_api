@@ -82,6 +82,7 @@ const Map = ({ showModal, setShowModal }: MapProps) => {
                 !modalRef.current.contains(event.target as Node)
             ) {
                 setShowModal(false);
+                document.body.style.overflowY = 'scroll'
             }
         };
 
@@ -114,7 +115,11 @@ const Map = ({ showModal, setShowModal }: MapProps) => {
                 </MapContainer>
                 <button
                     className="absolute p-2 rounded-[100%] top-2 left-2 hover:bg-[#dddddd]"
-                    onClick={() => setShowModal(false)}
+                    onClick={() => {
+                        setShowModal(false)
+                        document.body.style.overflowY = 'scroll'
+
+                    }}
                 >
                     <LiaTimesSolid size={18} />
                 </button>

@@ -84,12 +84,10 @@ const Product: React.FC<ProductProps> = ({
             <div className="my-4 flex max-md:flex-col max-md:gap-4 justify-between gap-4 text-white font-medium px-3">
                 <button className="relative bg-primaryColor w-full h-[60px] rounded-md active:scale-[.98] overflow-hidden" onClick={handleATC}>
                     <span className={isClicked ? "opacity-0" : ""}>{atc}</span>
-                    <FaShoppingCart className={`inline absolute top-[50%] left-[-10%] z-20 ${isClicked && 'newCartAnimate'}`} size={29} />
+                    <FaShoppingCart className={`absolute top-[50%] left-[-10%] z-20 line max-[400px]:left-[-15%] ${isClicked && '  newCartAnimate'}`} size={29} />
                     <FaBox className={`inline absolute top-[-30%] left-[55%] z-30 ${isClicked && 'newBoxAnimate'}`} />
                 </button>
-                {/* <button className="bg-purple-400 w-full py-3 rounded-md" onClick={() => navigate(`/products/${id}`)}>
-                    Details
-                </button> */}
+
             </div>
         </div>
     );
