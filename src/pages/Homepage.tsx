@@ -178,8 +178,8 @@ const Homepage = () => {
                 </div>
             )}
 
-            {searchData?.products.length === 30 ? (
-                <h1>Nothing found</h1>
+            {searchData?.products.length === 30 && search ? (
+                <h1 className="font-medium text-lg text-cent">Nothing found!!!</h1>
             ) : (
                 <div className=" grid grid-cols-4 max-xl:grid-cols-3 max-lg:grid-cols-2 max-md:grid-cols-1 gap-x-5 max-lg:gap-12 gap-y-12 mt-10 max-md:flex  max-md:flex-col max-md:max-w-[24rem] max-md:mx-auto max-md:gap-12 z-10 ">
                     {searchData?.products.map((item) => (
