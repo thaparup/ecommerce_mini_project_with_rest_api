@@ -6,6 +6,7 @@ import ProductSkeleton from "../components/ProductSkeleton";
 import Filter from "../components/Filters/Filter";
 import { useFilterContext } from "../states/context/FilterContext";
 import { SearchQueryType } from "../types/typeSearchQuery";
+import { useAddressContext } from "../states/context/AddressContext";
 
 const Homepage = () => {
     const [data, setData] = useState<TypeProductsRespnse | SearchQueryType | null>(null);
@@ -18,6 +19,9 @@ const Homepage = () => {
     const prevSelectedRef = useRef(selected);
     const counterRef = useRef<number>(0);
     const [searchData, setSearchData] = useState<SearchQueryType>();
+    const { setAddress } = useAddressContext()
+
+    setAddress('')
 
     document.body.style.overflowY = "scroll";
     const totalSkippedRef = useRef(0);

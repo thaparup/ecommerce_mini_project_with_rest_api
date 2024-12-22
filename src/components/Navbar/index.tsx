@@ -66,7 +66,13 @@ const Navbar: React.FC = () => {
                             styleButton="relative "
                         >
                             <li className="font-light h py-1">{auth.auth.email}</li>
-                            <li className="underline text-primaryColor" onClick={() => dispatch(logout())}>Logout</li>
+                            <li className="underline text-primaryColor" onClick={() => {
+                                localStorage.removeItem("cart");
+                                localStorage.removeItem("address");
+                                localStorage.removeItem("totalQuantity");
+                                localStorage.removeItem("checkout");
+                                dispatch(logout())
+                            }}>Logout</li>
 
                         </Menu>
                     )}
