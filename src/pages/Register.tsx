@@ -103,7 +103,6 @@ const Register = () => {
                         break;
                 }
             } else {
-                // If the error is not a FirebaseError, handle it as a general error
                 toast("An unknown error occurred. Please try again.");
             }
         }
@@ -112,7 +111,7 @@ const Register = () => {
         <div>
             <Toaster position="top-right" theme="light" />
             <section className="h-screen overflow-hidden flex items-center justify-center flex-col mb-20 ">
-                <div className="bg-white p-8 rounded-md lg:min-w-[35%]  md:min-w-[50%] sm:min-w-[70%] xs:min-w-[85%]">
+                <div className="bg-white p-8 rounded-md lg:min-w-[35%]  md:min-w-[50%] sm:min-w-[70%] xs:min-w-[90%]">
                     <form action="" onSubmit={handleSubmit}>
                         <label htmlFor="" className="block font-medium">
                             Name

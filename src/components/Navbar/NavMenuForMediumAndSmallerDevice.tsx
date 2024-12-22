@@ -6,6 +6,7 @@ import { useIsTokenExpired } from "../../hooks/useIsTokenExpired";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../states/store/store";
 import { logout } from "../../states/store/slices/AuthSlice";
+import { toast, Toaster } from "sonner";
 
 interface NavMenuForMediumAndSmallerDeviceProps {
     menuBurger: boolean;
@@ -30,11 +31,13 @@ const NavMenuForMediumAndSmallerDevice: React.FC<
     }
     return (
         <div className="relative mx-8 ">
+            <Toaster />
+
             <nav
                 className={` flex md:hidden justify-between list-none mt-6 ${menuBurger && ""
                     }`}
             >
-                <li className="text-2xl font-bold leading-0 text-purple-500">
+                <li className="text-2xl font-bold leading-0 text-purple-500 hover:cursor-pointer">
                     <Link to='/'> <span className="text-primaryColor">e</span>Mart</Link>
                 </li>
                 <li className="flex gap-5">
@@ -44,7 +47,7 @@ const NavMenuForMediumAndSmallerDevice: React.FC<
                             className="self-center text-primaryColor"
                         />
                         <div className="bg-primaryColor h-5 w-5 flex rounded-full absolute top-3 left-3">
-                            <p className="mx-auto self-center text-white text-sm">{tq}</p>
+                            <p className="mx-auto self-center text-white text-sm">{tq ? tq : 0}</p>
                         </div>
                     </div>
 
@@ -85,7 +88,7 @@ const NavMenuForMediumAndSmallerDevice: React.FC<
                 </div>
                 <h3 className="text-2xl font-bold leading-0  text-center">eMart</h3>
 
-                <ul className="">
+                <ul className="flex flex-col gap-2">
                     <li className="flex justify-between my-2 mx-3 font-medium" onClick={handleClick}>
                         <Link to="/">Home</Link>
                     </li>
@@ -138,6 +141,12 @@ const NavMenuForMediumAndSmallerDevice: React.FC<
                             <li className="flex justify-between my-2 mx-2 font-medium" onClick={() => {
                                 dispatch(logout())
                                 setMenuBurger(false)
+                                toast("Signed out successfully", {
+                                    style: { color: "#06b6d4" },
+                                    duration: 2000,
+                                    position: "top-right",
+                                });
+
                             }}>
                                 <h3>Logout</h3>
                                 <CiLogout size={24} className="self-center" />

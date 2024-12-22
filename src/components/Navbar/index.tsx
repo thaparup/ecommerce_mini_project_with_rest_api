@@ -8,6 +8,7 @@ import { RootState } from "../../states/store/store";
 import Menu from "../Menu";
 import { logout } from "../../states/store/slices/AuthSlice";
 import { useIsTokenExpired } from "../../hooks/useIsTokenExpired";
+import { toast, Toaster } from "sonner";
 
 const Navbar: React.FC = () => {
     const [menuBurger, setMenuBurger] = useState(false);
@@ -25,10 +26,12 @@ const Navbar: React.FC = () => {
 
     return (
         <>
+            <Toaster />
+
             <nav className="flex justify-between mt-6 mx-12 max-md:hidden ">
-                <h3 className="text-2xl font-bold leading-0 text-purple-500 ">
+                <Link to='/' className="text-2xl font-bold leading-0 text-purple-500 hover:cursor-pointer ">
                     <span className="text-primaryColor">e</span>Mart
-                </h3>
+                </Link>
                 <ul className="flex gap-4 self-end font-normal relative text-md ">
                     <li
                         className={`after:content-[''] after:rounded-md after:h-1  after:block after:transition-all after:duration-300 after:ease-in-out after:w-2/3 ${activeLink === "/" && "after:w-2/3 after:bg-primaryColor"
@@ -71,7 +74,13 @@ const Navbar: React.FC = () => {
                                 localStorage.removeItem("address");
                                 localStorage.removeItem("totalQuantity");
                                 localStorage.removeItem("checkout");
+                                toast("Signed out successfully", {
+                                    style: { color: "#06b6d4" },
+                                    duration: 2000,
+                                    position: "top-right",
+                                });
                                 dispatch(logout())
+
                             }}>Logout</li>
 
                         </Menu>

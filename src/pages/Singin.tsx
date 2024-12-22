@@ -1,9 +1,6 @@
-import {
-    getAuth,
-    signInWithEmailAndPassword,
-} from "firebase/auth";
-import React, { useState, FormEvent } from "react";
-import { useDispatch, } from "react-redux";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import React, { useState, FormEvent, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast, Toaster } from "sonner";
 import { login } from "../states/store/slices/AuthSlice";
@@ -12,15 +9,17 @@ import { FirebaseError } from "firebase/app";
 import { useIsTokenExpired } from "../hooks/useIsTokenExpired";
 
 const Signin: React.FC = () => {
-    const isTokenExpired = useIsTokenExpired();
-    const nav = useNavigate()
-
-    if (!isTokenExpired) {
-        nav('/')
-    }
-    const auth = getAuth(app);
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
+    const isTokenExpired = useIsTokenExpired();
+    const nav = useNavigate();
+
+    useEffect(() => {
+        if (!isTokenExpired && !email) {
+            nav("/");
+        }
+    }, [isTokenExpired, email, nav]);
+    const auth = getAuth(app);
     const [emailError, setEmailError] = useState<string>("");
     const [passwordError, setPasswordError] = useState<string>("");
     const dispatch = useDispatch();
@@ -42,13 +41,28 @@ const Signin: React.FC = () => {
         }
 
         try {
-            const userCredential = await signInWithEmailAndPassword(auth, email, password);
+            const userCredential = await signInWithEmailAndPassword(
+                auth,
+                email,
+                password
+            );
             const user = userCredential.user;
 
             const token = await user.getIdToken();
             dispatch(
                 login({ token, email: user.email || "", name: user.displayName || "" })
             );
+
+            if (token) {
+                toast("Signed in successfully", {
+                    style: { color: "#06b6d4" },
+                    duration: 2000,
+                    position: "top-right",
+                });
+                setTimeout(() => {
+                    nav("/");
+                }, 3000);
+            }
         } catch (error) {
             console.error("Error signing in user:", error);
 
@@ -100,8 +114,6 @@ const Signin: React.FC = () => {
             }
         }
     };
-
-
 
     return (
         <div className={`h-screen flex justify-center items-center`}>
