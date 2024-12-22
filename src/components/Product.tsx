@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, MouseEvent } from "react";
 import { FaBox, FaShoppingCart } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../states/store/slices/cartSlice";
@@ -25,9 +25,9 @@ const Product: React.FC<ProductProps> = ({
     const navigate = useNavigate()
 
     const dispatch = useDispatch();
-    const handleATC = () => {
+    const handleATC = (event: MouseEvent<HTMLButtonElement>) => {
 
-
+        event.stopPropagation()
 
         if (addToCartRef.current) return;
         addToCartRef.current = true;
