@@ -13,9 +13,9 @@ import { useIsTokenExpired } from "../hooks/useIsTokenExpired";
 
 const PaymentSuccess = () => {
     const navigate = useNavigate();
+    const fetchRef = useRef<boolean>(false);
     const isTokenExpired = useIsTokenExpired();
     if (isTokenExpired) navigate("/auth/signin");
-    const fetchRef = useRef<boolean>(false);
 
     const storage = JSON.parse(localStorage.getItem("checkout")!);
 
@@ -27,6 +27,7 @@ const PaymentSuccess = () => {
 
     const auth = JSON.parse(localStorage.getItem('auth')!)
 
+    const sum = useCartTotal();
     const cart = useSelector((state: RootState) => state.cart);
     const { address } = useAddressContext();
 
@@ -43,7 +44,6 @@ const PaymentSuccess = () => {
         })
         .join("");
 
-    const sum = useCartTotal();
 
     const tableHTML = HtmlEmail({ rows, address, sum });
     const sendEmail = async () => {
@@ -88,7 +88,7 @@ const PaymentSuccess = () => {
         }
         fetchRef.current = true;
     }, []);
-
+    console.log(auth.email)
     return (
         <div className="pb-12">
             <Toaster />
