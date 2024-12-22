@@ -13,7 +13,7 @@ const FilterByPrice = ({ }) => {
             </div>
 
             <Menu
-                buttonLabelOrIcon={<FaChevronDown size={10} className="animateMenu" />}
+                buttonLabelOrIcon={<FaChevronDown size={10} className="" />}
                 styleButton=" ml-8 border-[1px] border-[#dddddd] p-4 self-center rounded-[100%] "
                 styleMenuContainer="top-16 right-8"
             >

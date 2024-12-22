@@ -5,7 +5,8 @@ import { LiaTimesSolid } from "react-icons/lia";
 import { Dispatch, SetStateAction } from "react";
 import { LeafletEvent, LeafletEventHandlerFnMap } from "leaflet";
 import { useAddressContext } from "../states/context/AddressContext";
-
+import L from 'leaflet';
+L.Icon.Default.imagePath = 'leaflet_images/';
 type MapProps = {
     showModal: boolean;
     setShowModal: Dispatch<SetStateAction<boolean>>;
@@ -100,7 +101,7 @@ const Map = ({ showModal, setShowModal }: MapProps) => {
                     center={position}
                     zoom={12}
                     scrollWheelZoom={true}
-                    className="w-full h-full "
+                    className="w-full h-full"
                 >
                     <TileLayer
                         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

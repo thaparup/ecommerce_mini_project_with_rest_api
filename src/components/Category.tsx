@@ -12,7 +12,7 @@ const Category: React.FC<CategoryProps> = ({ imageUrl, categoryName, slug }: Cat
     const [hasImageLoaded, setHasImageLoaded] = useState<boolean>(false)
 
     return (
-        <Link to={`http://localhost:5173/categories/${slug}`}>
+        <Link to={`/categories/${slug}`}>
 
             <div className='cursor-pointer relative flex flex-col cardBoxShadow rounded-md'  >
 

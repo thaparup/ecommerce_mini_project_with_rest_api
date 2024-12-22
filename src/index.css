@@ -164,7 +164,41 @@ body {
     rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
   /* padding: 16px; */
 }
+@keyframes newCartAnimation {
+  0% {
+    left: -10%;
+  }
+  40%,
+  60% {
+    left: 50%;
+  }
+  100% {
+    left: 110%;
+  }
+}
 
+.newCartAnimate {
+  animation: newCartAnimation 1.5s;
+}
+@keyframes newBoxAnimation {
+  0%,
+  40% {
+    top: -30%;
+  }
+  60% {
+    top: 50%;
+    left: 54%;
+  }
+
+  100% {
+    top: 50%;
+    left: 110%;
+  }
+}
+
+.newBoxAnimate {
+  animation: newBoxAnimation 1.5s;
+}
 @keyframes skeletonAnimation {
   0% {
     background-color: hsl(200, 20%, 70%);

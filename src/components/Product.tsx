@@ -53,9 +53,15 @@ const Product: React.FC<ProductProps> = ({
         }, 1500);
     };
 
+    const atcFunc = () => {
+
+        setIsClicked(true)
+
+        setTimeout(() => { setIsClicked(false) }, 2000)
+    }
 
     return (
-        <div className="relative flex flex-col cardBoxShadow rounded-md ">
+        <div className="relative flex flex-col cardBoxShadow rounded-md hover:shadow-xl hover:cursor-pointer" onClick={() => navigate(`/products/${id}`)} >
             <div className="relative">
                 {!isLoaded && (
                     <div className="w-full h-[250px] rounded-md skeleton absolute"></div>
@@ -81,29 +87,14 @@ const Product: React.FC<ProductProps> = ({
             <h3 className="font-light text-[16px] px-3 mt-1">{title}</h3>
 
             <div className="my-4 flex max-md:flex-col max-md:gap-4 justify-between gap-4 text-white font-medium px-3">
-                <button
-                    className="bg-primaryColor w-full py-3 rounded-md relative overflow-hidden "
-                    onClick={handleATC}
-                >
-                    <FaShoppingCart
-                        size={29}
-                        className={`absolute  -translate-x-[30px] translate-y-2  text-white ${isClicked &&
-                            "max-sm:animate-none max-md:animate-none cartAnimation"
-                            }`}
-                    />
-
+                <button className="relative bg-primaryColor w-full h-[60px] rounded-md active:scale-[.98] overflow-hidden" onClick={handleATC}>
                     <span className={isClicked ? "opacity-0" : ""}>{atc}</span>
-
-                    <FaBox
-                        size={15}
-                        className={`absolute translate-y-[-54px] translate-x-[80px]  text-white  ${isClicked &&
-                            "max-md:animate-none max-sm:animate-none boxAnimation"
-                            }`}
-                    />
+                    <FaShoppingCart className={`inline absolute top-[50%] left-[-10%] z-20 ${isClicked && 'newCartAnimate'}`} size={29} />
+                    <FaBox className={`inline absolute top-[-30%] left-[55%] z-30 ${isClicked && 'newBoxAnimate'}`} />
                 </button>
-                <button className="bg-purple-400 w-full py-3 rounded-md" onClick={() => navigate(`/products/${id}`)}>
+                {/* <button className="bg-purple-400 w-full py-3 rounded-md" onClick={() => navigate(`/products/${id}`)}>
                     Details
-                </button>
+                </button> */}
             </div>
         </div>
     );

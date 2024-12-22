@@ -15,7 +15,7 @@ const FilterByTitle = ({ }): JSX.Element => {
                 <h3 className="text-xl font-semibold leading-none">Title</h3>
             </div>
 
-            <Menu buttonLabelOrIcon={<FaChevronDown size={10} className="animateMenu" />} styleButton=' ml-8 border-[1px] border-[#dddddd] p-4 self-center rounded-[100%] ' styleMenuContainer="top-16 right-8" >
+            <Menu buttonLabelOrIcon={<FaChevronDown size={10} className="" />} styleButton=' ml-8 border-[1px] border-[#dddddd] p-4 self-center rounded-[100%] ' styleMenuContainer="top-16 right-8" >
 
                 <div className="flex gap-2 px-4 pt-2 pb-4">
                     <input type="radio" name="radioOptions" value="&sortBy=title&order=asc" onChange={(e) => setSelected(e.target.value)} />
