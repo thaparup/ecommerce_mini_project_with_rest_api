@@ -1,6 +1,6 @@
 import React, { SetStateAction, useRef } from "react";
 import { LiaTimesSolid } from "react-icons/lia";
-import { Navigate, useNavigate, } from "react-router-dom";
+import { useNavigate, } from "react-router-dom";
 import { useCartTotal } from "../hooks/useCartTotal";
 
 const CheckoutModal = ({
