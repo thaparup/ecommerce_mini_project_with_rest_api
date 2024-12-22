@@ -1,6 +1,6 @@
 import React, { SetStateAction, useRef } from "react";
 import { LiaTimesSolid } from "react-icons/lia";
-import { Navigate, } from "react-router-dom";
+import { Navigate, useNavigate, } from "react-router-dom";
 import { useCartTotal } from "../hooks/useCartTotal";
 
 const CheckoutModal = ({
@@ -12,8 +12,9 @@ const CheckoutModal = ({
     setModal: React.Dispatch<SetStateAction<boolean>>;
     methodOfPayment: string;
 }) => {
+    const nav = useNavigate()
     const storage = JSON.parse(localStorage.getItem("checkout")!);
-    if (!storage.isCartConfirmed || !storage) return <Navigate to="/cart" />;
+    if (!storage.isCartConfirmed || !storage) nav('/cart')
 
     const modalRef = useRef<HTMLDivElement>(null);
     const sum = useCartTotal();
@@ -26,7 +27,7 @@ const CheckoutModal = ({
     }
     const handleClick = () => {
         const storage = JSON.parse(localStorage.getItem("checkout")!);
-        if (!storage.isCartConfirmed || !storage) return <Navigate to="/cart" />;
+        if (!storage.isCartConfirmed || !storage) nav('/cart');
 
         if (methodOfPayment === "esewa") {
             const paymentURL = `https://uat.esewa.com.np/epay/main?amt=${amtInNrs}&tAmt=${amtInNrs}&txAmt=0&scd=EPAYTEST&pid=${alphanum}&psc=0&su=http://localhost.5173/cart/success&fu=https://developer.esewa.com.np/failure&pdc=0&secret_key=8gBm/:&EnhH.1/q`;
@@ -39,7 +40,6 @@ const CheckoutModal = ({
                     isPaymentConfirmed: true,
                 })
             );
-            console.log(alphanum)
 
 
         }
@@ -52,7 +52,7 @@ const CheckoutModal = ({
                     isPaymentConfirmed: true,
                 })
             );
-            window.location.href = "http://localhost:5173/success";
+            nav('/success')
         }
     };
 

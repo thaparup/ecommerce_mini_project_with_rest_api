@@ -10,6 +10,7 @@ import {
 } from "../states/store/slices/cartSlice";
 import { useAddressContext } from "../states/context/AddressContext";
 import { useCartTotal } from "../hooks/useCartTotal";
+import { useNavigate } from "react-router-dom";
 
 const ProceedToCheckout: FC = () => {
     const cart = useSelector((state: RootState) => state.cart);
@@ -17,6 +18,7 @@ const ProceedToCheckout: FC = () => {
     const [showModal, setShowModal] = useState<boolean>(false);
     const { address, setAddress } = useAddressContext();
     const sum = useCartTotal()
+    const navigate = useNavigate();
 
     useEffect(() => {
         const queryParams = new URLSearchParams(location.search);
@@ -56,7 +58,7 @@ const ProceedToCheckout: FC = () => {
             })
         );
 
-        window.location.href = `http://localhost:5173/cart/confirm`;
+        navigate('/cart/confirm');
     };
     return (
         <form
