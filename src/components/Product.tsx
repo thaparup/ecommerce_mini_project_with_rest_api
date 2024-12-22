@@ -53,12 +53,7 @@ const Product: React.FC<ProductProps> = ({
         }, 1500);
     };
 
-    const atcFunc = () => {
 
-        setIsClicked(true)
-
-        setTimeout(() => { setIsClicked(false) }, 2000)
-    }
 
     return (
         <div className="relative flex flex-col cardBoxShadow rounded-md hover:shadow-xl hover:cursor-pointer" onClick={() => navigate(`/products/${id}`)} >
